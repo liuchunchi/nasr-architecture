@@ -19,11 +19,11 @@
 # Change the file extension to match the format (.xml for XML, etc...)
 #
 ###
-title: "TODO - Your title"
-abbrev: "TODO - Abbreviation"
+title: Network Attestation for Secure Routing (NASR) Architecture
+abbrev: NASR Architecture
 category: info
 
-docname: draft-todo-yourname-protocol-latest
+docname: draft-liu-nasr-architecture-latest
 submissiontype: IETF  # also: "independent", "editorial", "IAB", or "IRTF"
 number:
 date:
