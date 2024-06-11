@@ -1,0 +1,81 @@
+{
+  "magic": "E!vIA5L86J2I",
+  "timestamp": "2024-06-11T01:23:18.913812+00:00",
+  "repo": "liuchunchi/nasr-architecture",
+  "labels": [
+    {
+      "name": "bug",
+      "description": "Something isn't working",
+      "color": "d73a4a"
+    },
+    {
+      "name": "documentation",
+      "description": "Improvements or additions to documentation",
+      "color": "0075ca"
+    },
+    {
+      "name": "duplicate",
+      "description": "This issue or pull request already exists",
+      "color": "cfd3d7"
+    },
+    {
+      "name": "enhancement",
+      "description": "New feature or request",
+      "color": "a2eeef"
+    },
+    {
+      "name": "good first issue",
+      "description": "Good for newcomers",
+      "color": "7057ff"
+    },
+    {
+      "name": "help wanted",
+      "description": "Extra attention is needed",
+      "color": "008672"
+    },
+    {
+      "name": "invalid",
+      "description": "This doesn't seem right",
+      "color": "e4e669"
+    },
+    {
+      "name": "question",
+      "description": "Further information is requested",
+      "color": "d876e3"
+    },
+    {
+      "name": "wontfix",
+      "description": "This will not be worked on",
+      "color": "ffffff"
+    }
+  ],
+  "issues": [],
+  "pulls": [
+    {
+      "number": 1,
+      "id": "PR_kwDOMG72Xc5x4nl2",
+      "title": "Add architecture diagrams, definitions, intro",
+      "url": "https://github.com/liuchunchi/nasr-architecture/pull/1",
+      "state": "OPEN",
+      "author": "liuchunchi",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "Add \r\n1. architecture diagrams, \r\n2. new definitions of entities: orchestrator, verifier entities conceptual messages: path attestation result, path evidence, path request\r\n3. introduction, abstract",
+      "createdAt": "2024-06-09T10:05:26Z",
+      "updatedAt": "2024-06-09T10:18:55Z",
+      "baseRepository": "liuchunchi/nasr-architecture",
+      "baseRefName": "main",
+      "baseRefOid": "c52a8ad0a4c50248ea9f937f34ad98dee8cea98f",
+      "headRepository": "liuchunchi/nasr-architecture",
+      "headRefName": "liuchunchi-v1",
+      "headRefOid": "bbacd82a2c96135334ff9ae71b35853860bbb3dc",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    }
+  ]
+}
