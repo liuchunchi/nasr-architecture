@@ -96,7 +96,7 @@ Please refer to the use cases identified in {{-NASRREQ}}
 
 The existing roles from RATS Architecture document {{RFC9344}} applies. 
 
-Attester: A role inherits the attester in RATS, performed by an entity which can be physical device or function. attester can produce evidence and update path evidence with attestation result/raw evidence/proof of transit. 
+Attester: The definition in {{RFC9344}} applies. Additionally, it can be performed by either a physical device or a virtual function. The Attester can produce Evidence and update Path Evidence with Attestation Result/Raw Evidence/Proof of Transit
 
     Produces: Evidence
 
