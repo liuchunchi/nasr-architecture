@@ -12,9 +12,9 @@ v: 3
 # area: AREA
 # workgroup: WG Working Group
 keyword:
- - next generation
- - unicorn
- - sparkling distributed ledger
+ - NASR
+ - Secure Routing
+
 venue:
 #  group: WG
 #  type: Working Group
@@ -39,7 +39,6 @@ informative:
 
 This document provides an architecture overview of NASR entities, interactive procedures and messages.
 
-
 --- middle
 
 # Introduction
@@ -59,7 +58,9 @@ This document introduces the architecture, entities, interactive procedures, and
 Please refer to the use cases identified in {{-NASRREQ}}
 
 # Architectural Overview
-                                                                               
+
+## Single client - single operator (An Oversimplification)
+
       ┌────────────────────┐                                                              
       │                    │                                                              
       │    Relying Party   │                                                              
@@ -86,6 +87,12 @@ Please refer to the use cases identified in {{-NASRREQ}}
       └────────────────────┘       └────────────────────┘       └────────────────────┘    
                         Update PE with                Update PE with                      
                           AR/RE/PoT                     AR/RE/PoT                         
+
+Figure 1. NASR Architecture
+
+Fig. 1 is an oversimplification to ease understanding of the concept. In a single client - single operator scenario, a client (Relying Party) sends a Path Request containing his security or trustworthiness requirements of a leased line. The Orchestrator, run by the operator, would choose qualifying devices (Attesters) and send out an empty Path Evidence inquiry. The Attesters update the Path Evidence with its own Raw Evidence or Attestation Results one-by-one. The Verifier verifies the filled Path Evidence, produce a Path Attestation Result (PAR), and sends it back to the Relying Party. The Relying Party now have confidence over the trustworthiness of received network. After the end-to-end service is delivered, during service, Proof-of-Transits are also created by each Attester, being sent in-band accumulatively or out-of-band, to detect unexpected routing deviation. 
+
+This process is repeated periodically to continuously assure compliance. 
 
 [NASR Architecture](https://docs.google.com/presentation/d/1sT2jn8YfgDE7KXhTuAgPBdlWDbxV2uZ_Z78SkMs0HNk/edit?usp=sharing)
 
