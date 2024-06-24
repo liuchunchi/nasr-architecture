@@ -94,7 +94,13 @@ Please refer to the use cases identified in {{-NASRREQ}}
 
 # Roles {#roles}
 
-The existing roles from RATS Architecture document {{RFC9344}} applies. New role(s) are defined below.
+The existing roles from RATS Architecture document {{RFC9344}} applies. 
+
+Attester: A role inherits the attester in RATS, performed by an entity which can be physical device or function. attester can produce evidence and update path evidence with attestation result/raw evidence/proof of transit. 
+
+    Produces: Evidence
+
+New role(s) are defined below.
 
 Orchestrator: A role performed by an entity (typically a controller or a special device) that receives a Path Request from the Relying Party, send unfilled Path Evidence (PE) inquiry to Attesters, collects Path Attestation Result (PAR) from the Verifier, and send PAR back to the Relying Party.
 
