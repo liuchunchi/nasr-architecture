@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-06-23T01:33:45.940794+00:00",
+  "timestamp": "2024-06-25T01:23:14.967763+00:00",
   "repo": "liuchunchi/nasr-architecture",
   "labels": [
     {
@@ -123,6 +123,79 @@
           ]
         }
       ]
+    },
+    {
+      "number": 2,
+      "id": "PR_kwDOMG72Xc5zUyA8",
+      "title": "Update draft-liu-nasr-architecture.md",
+      "url": "https://github.com/liuchunchi/nasr-architecture/pull/2",
+      "state": "OPEN",
+      "author": "Maisy-ML",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-06-24T07:23:13Z",
+      "updatedAt": "2024-06-24T11:58:52Z",
+      "baseRepository": "liuchunchi/nasr-architecture",
+      "baseRefName": "main",
+      "baseRefOid": "66f680b8274894b2ba3987a3a1017017e9d12c16",
+      "headRepository": "Maisy-ML/nasr-architecture",
+      "headRefName": "patch-1",
+      "headRefOid": "f7e7c56da97267e100f3565454b56e24443f2e30",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMG72Xc5_SpBR",
+          "commit": {
+            "abbreviatedOid": "f7e7c56"
+          },
+          "author": "liuchunchi",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-06-24T11:58:52Z",
+          "updatedAt": "2024-06-24T11:58:52Z",
+          "comments": [
+            {
+              "originalPosition": 8,
+              "body": "Minor rewording. ",
+              "createdAt": "2024-06-24T11:58:52Z",
+              "updatedAt": "2024-06-24T11:58:52Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "id": "PR_kwDOMG72Xc5zXh-2",
+      "title": "Add architecture details",
+      "url": "https://github.com/liuchunchi/nasr-architecture/pull/3",
+      "state": "OPEN",
+      "author": "liuchunchi",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-06-24T13:21:59Z",
+      "updatedAt": "2024-06-24T13:21:59Z",
+      "baseRepository": "liuchunchi/nasr-architecture",
+      "baseRefName": "main",
+      "baseRefOid": "66f680b8274894b2ba3987a3a1017017e9d12c16",
+      "headRepository": "liuchunchi/nasr-architecture",
+      "headRefName": "liu-update-arch",
+      "headRefOid": "e6a8774f8ce9f6dcea08d0768b994b3d89a24da6",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
