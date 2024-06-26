@@ -12,9 +12,9 @@ v: 3
 # area: AREA
 # workgroup: WG Working Group
 keyword:
- - next generation
- - unicorn
- - sparkling distributed ledger
+ - NASR
+ - Secure Routing
+
 venue:
 #  group: WG
 #  type: Working Group
@@ -39,7 +39,6 @@ informative:
 
 This document provides an architecture overview of NASR entities, interactive procedures and messages.
 
-
 --- middle
 
 # Introduction
@@ -59,7 +58,9 @@ This document introduces the architecture, entities, interactive procedures, and
 Please refer to the use cases identified in {{-NASRREQ}}
 
 # Architectural Overview
-                                                                               
+
+## Single client - single operator (An Oversimplification)
+
       ┌────────────────────┐                                                              
       │                    │                                                              
       │    Relying Party   │                                                              
@@ -87,9 +88,50 @@ Please refer to the use cases identified in {{-NASRREQ}}
                         Update PE with                Update PE with                      
                           AR/RE/PoT                     AR/RE/PoT                         
 
+Figure 1. NASR Architecture
+
+Fig. 1 is an oversimplification to ease understanding of the concept. In a single client - single operator scenario, a client (Relying Party) sends a Path Request containing his security or trustworthiness requirements of a leased line. The Orchestrator, run by the operator, would choose qualifying devices (Attesters) and send out an empty Path Evidence inquiry. The Attesters update the Path Evidence with its own Raw Evidence or Attestation Results one-by-one. The Verifier verifies the filled Path Evidence, produce a Path Attestation Result (PAR), and sends it back to the Relying Party. The Relying Party now have confidence over the trustworthiness of received network. After the end-to-end service is delivered, during service, Proof-of-Transits are also created by each Attester, being sent in-band accumulatively or out-of-band, to detect unexpected routing deviation. 
+
+This process is repeated periodically to continuously assure compliance. 
+
 [NASR Architecture](https://docs.google.com/presentation/d/1sT2jn8YfgDE7KXhTuAgPBdlWDbxV2uZ_Z78SkMs0HNk/edit?usp=sharing)
 
 [ASCII Diagram](https://asciiflow.com/#/share/eJzVlb1OwzAQx1%2FF8tRKVSoxAO3WIStE5mPKYrWGRgpJcV1oVFVCFSMDQwR9DkbE0%2BRJcNIo35%2B1g8TJgyNffnfJ3f29gRZ%2BIHAMLyZXCA6giR1C%2BeNGh2sdjkeno4EOHb47OT%2FjO0bWjD%2FoEHDz3B%2FBBURM160wi6JTuXRETMew7oGGKXOk07P2X%2Bgt1sdXF9XXMJtnvkiUm6Aj8rgiS5alI7KwKROmJ4hFe2F6rgKdTKfnvnnui8B6B037NSj2hDFeEswM2%2BKFWK5MBnraBPV9t13x27tchEs6nXMKxcymFYGLUdxuCTXuDELLI%2BRe%2FXwVV0vh4jXKtOW%2FqI7wB%2FeD57o1PeZrT4XDHpRP5HGWJXB6qFTS6BEvoKtPxoxYUyKLHvECek9T%2B%2FGZOD3iJTolrSK%2BVrVWkZAvp%2BUa6Fp1jildq5iViv%2BazKbJtIU%2BB4mM1ansRv5OeSuK0sQ9Ry%2FKoOPvrJv3mrWPw8rqFQkZJRUoZTeLGWYEaCp4NqKZb3gaWCmZFxMNkTrU7OsjTn0y3MLtL2JpUd8%3D))
+
+
+## Multi Client - Multi Operator 
+
+
+                            +---------------------------------------------------+                             
+                            |                                                   |                             
+                            |   +------------+       +------------+             |                             
+                            |   | Verifier   |       | Verifier   |      ...    |                             
+                            |   | Vendor A   |       | Vendor B   |             |                             
++-------------------+       |   +----^-----+-+       +-------^--+-+     Vendors |        +-------------------+
+|                   |       |        |     |                 |  |               |        |                   |
+|                   |       +--------+-----+-----------------+--+---------------+        |                   |
+|   Customer A      |                |     |                 |  |                        |   Customer B      |
+|                   |                |     |                 |  |                        |                   |
+|  +--------------+ |  Path          |     |                 |  |                        |   +------------+  |
+|  |  Relying     | |  Request +-----+-----+-------+     +---+--+------------+           |   |  Relying   |  |
+|  |  Party       +-+----+     |     |     |       |     |   |  |            |  +--------+---+  Party     |  |
+|  +---+----------+ |    |     |     |     |       |Intra|   |  |            |  |        |   +------------+  |
+|      |            |    |     |  RE |     |AR     |ISP  | RE|  |AR          |  |        |           ^       |
+|      |            |    |     | +---+-----v-----+ |API  |  ++--v---------+  |  |        |           |       |
+|      |Path        |    +-----> | Orchestrator  +-+-----+->| Orchestrator|<-+--+        |           |       |
+|      |Evidence    |          | +---^-----+-----+ |     |  +--^--+-------+  |           |           |       |
+|      |            |          |     |     |       |     |     |  |          |           |           |       |
+|      |            |          |  RE |     |AR     |     |   RE|  |AR        |           |           |       |
+|   +--v--------+   |          | +---+-----v-----+ |     |  +--+--v--------+ |           |   +-------+---+   |
+|   | Attester  |   |          | | Attester      | |     |  | Attester     | |           |   | Attester  |   |
+|   |           +---+----------+>| Vendor A      +-+-----+->| Vendor B     +-+-----------+-->|           |   |
+|   +-----------+   |Update PE | +---------------+ |     |  +--------------+ | Update PE |   +-----------+   |
+|                   |  with    |                   |     |                   |   with    |                   |
+|                   |AR/RE/PoT |  Operator 1       |     |   Operator 2      | AR/RE/PoT |                   |
++-------------------+          +-------------------+     +-------------------+           +-------------------+
+                                                                                                              
+
+In a more generalized scenario where multiple operators, having devices from different vendors, collaborate to provide a secure leased line service. 
 
 
 # Roles {#roles}
