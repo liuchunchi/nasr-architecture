@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-06-25T01:23:14.967763+00:00",
+  "timestamp": "2024-06-27T01:23:23.047902+00:00",
   "repo": "liuchunchi/nasr-architecture",
   "labels": [
     {
@@ -84,7 +84,7 @@
             "abbreviatedOid": "bbacd82"
           },
           "author": "Maisy-ML",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-06-17T09:10:28Z",
@@ -131,7 +131,7 @@
       "url": "https://github.com/liuchunchi/nasr-architecture/pull/2",
       "state": "OPEN",
       "author": "Maisy-ML",
-      "authorAssociation": "NONE",
+      "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
@@ -176,24 +176,26 @@
       "id": "PR_kwDOMG72Xc5zXh-2",
       "title": "Add architecture details",
       "url": "https://github.com/liuchunchi/nasr-architecture/pull/3",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "liuchunchi",
       "authorAssociation": "OWNER",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2024-06-24T13:21:59Z",
-      "updatedAt": "2024-06-24T13:21:59Z",
+      "updatedAt": "2024-06-26T08:27:47Z",
       "baseRepository": "liuchunchi/nasr-architecture",
       "baseRefName": "main",
       "baseRefOid": "66f680b8274894b2ba3987a3a1017017e9d12c16",
       "headRepository": "liuchunchi/nasr-architecture",
       "headRefName": "liu-update-arch",
       "headRefOid": "e6a8774f8ce9f6dcea08d0768b994b3d89a24da6",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-06-26T08:27:47Z",
+      "mergedAt": "2024-06-26T08:27:47Z",
+      "mergedBy": "liuchunchi",
+      "mergeCommit": {
+        "oid": "bfe804d747f9e5866e41b77a4f67247977784b23"
+      },
       "comments": [],
       "reviews": []
     }
