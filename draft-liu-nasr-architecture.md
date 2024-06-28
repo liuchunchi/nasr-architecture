@@ -116,7 +116,7 @@ This process is repeated periodically to continuously assure compliance.
 |  |  Party       | |          | |     |     |       |        |      |    |       |     +-------+---+  Party     |  |
 |  +---+----------+<+--------+ | |     |     |       |  Intra |      |    |       |     |       |   +------------+  |
 |      |            |        | | |  RE |     |AR     |  ISP   |   RE |    | AR    |     |       |           ^       |
-|      |            | Answer | +-> +---+-----v-----+ |  API   |  +---+----v----+  |     |       |           |       |
+|      |            |        | +-> +---+-----v-----+ |  API   |  +---+----v----+  |     |       |           |       |
 |      |Path        | Report |   | | Orchestrator  +-+--------+->| Orchestrator|<-+-----+       |           |       |
 |      |Evidence    |        +---+ +---^-----+-----+ |        |  +---^----+----+  |             |           |       |
 |      |            |            |     |     |       |        |      |    |       |             |           |       |
@@ -137,6 +137,7 @@ Relying Party (customer) then sends the Path Evidence inquiry to check and attes
 
 Also, the operators may have heterogeneous network devices from different vendors. Since vendors provide Verifier software/hardware and Reference Values, Verifiers can be deployed either outside the operators (Fig 2) or inside of the operators (Fig 3). 
 
+
                           +----------------------------------------------------------------+                                 
                           |                                                                |                                 
                           |       +------------+                 +------------+            |                                 
@@ -147,17 +148,18 @@ Also, the operators may have heterogeneous network devices from different vendor
                           |               |                             |                  |                                 
                           +---------------+-----------------------------+------------------+                                 
                                           |  Verifier software/hardware |                                                    
-+-------------------+                     |  Reference Value            |                       +-------------------+        
-|                   |            +--------+----------+        +---------+---------+             |                   |        
+                                          |  Reference Value            |                                                    
++-------------------+            +--------+----------+        +---------+---------+             +-------------------+        
 |                   |            |        |          |        |         |         |             |                   |        
-|    Client  A      |            |  +-----v------+   |        |   +-----v------+  |             |    Client  B      |        
-|                   |  Path      |  | Verifier   |   |        |   |  Verifier  |  | Path        |                   |        
-|  +--------------+ |  Request   |  | Vendor A   |   |        |   |  Vendor B  |  | Attestation |   +------------+  |        
+|                   |            |  +-----v------+   |        |   +-----v------+  |             |                   |        
+|    Client  A      |            |  | Verifier   |   |        |   | Verifier   |  |             |    Client  B      |        
+|                   |  Path      |  | from       |   |        |   | from       |  | Path        |                   |        
+|  +--------------+ |  Request   |  | Vendor A   |   |        |   | Vendor B   |  | Attestation |   +------------+  |        
 |  |  Relying     +-+----------+ |  +--+-----+---+   |        |   +--+----+----+  | Result (PAR)|   |  Relying   |  |        
 |  |  Party       | |          | |     |     |       |        |      |    |       |     +-------+---+  Party     |  |        
 |  +---+----------+<+--------+ | |     |     |       |  Intra |      |    |       |     |       |   +------------+  |        
 |      |            |        | | |  RE |     |AR     |  ISP   |   RE |    | AR    |     |       |           ^       |        
-|      |            | Answer | +-> +---+-----v-----+ |  API   |  +---+----v----+  |     |       |           |       |        
+|      |            |        | +-> +---+-----v-----+ |  API   |  +---+----v----+  |     |       |           |       |        
 |      |Path        | Report |   | | Orchestrator  +-+--------+->| Orchestrator|<-+-----+       |           |       |        
 |      |Evidence    |        +---+ +---^-----+-----+ |        |  +---^----+----+  |             |           |       |        
 |      |            |            |     |     |       |        |      |    |       |             |           |       |        
@@ -169,7 +171,9 @@ Also, the operators may have heterogeneous network devices from different vendor
 |                   |    with    |                   |        |                   |    with     |                   |        
 |                   |  AR/RE/PoT |  Operator 1       |        |   Operator 2      |  AR/RE/PoT  |                   |        
 +-------------------+            +-------------------+        +-------------------+             +-------------------+        
-                                                                                                                                                        
+                                                                                                                             
+                                                                                                                             
+                                                                                                                             
 Figure 3. Verifier deployed in operators
 
 # Roles {#roles}
