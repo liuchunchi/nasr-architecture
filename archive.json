@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-06-27T01:23:23.047902+00:00",
+  "timestamp": "2024-06-30T01:36:04.384146+00:00",
   "repo": "liuchunchi/nasr-architecture",
   "labels": [
     {
@@ -129,24 +129,26 @@
       "id": "PR_kwDOMG72Xc5zUyA8",
       "title": "Update draft-liu-nasr-architecture.md",
       "url": "https://github.com/liuchunchi/nasr-architecture/pull/2",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "Maisy-ML",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2024-06-24T07:23:13Z",
-      "updatedAt": "2024-06-24T11:58:52Z",
+      "updatedAt": "2024-06-28T07:39:05Z",
       "baseRepository": "liuchunchi/nasr-architecture",
       "baseRefName": "main",
       "baseRefOid": "66f680b8274894b2ba3987a3a1017017e9d12c16",
       "headRepository": "Maisy-ML/nasr-architecture",
       "headRefName": "patch-1",
       "headRefOid": "f7e7c56da97267e100f3565454b56e24443f2e30",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-06-28T07:20:41Z",
+      "mergedAt": "2024-06-28T07:20:41Z",
+      "mergedBy": "Maisy-ML",
+      "mergeCommit": {
+        "oid": "4bc3cdc4e7041627157240e48323d8a5c739dbb4"
+      },
       "comments": [],
       "reviews": [
         {
@@ -166,6 +168,39 @@
               "body": "Minor rewording. ",
               "createdAt": "2024-06-24T11:58:52Z",
               "updatedAt": "2024-06-24T11:58:52Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMG72Xc5__EoJ",
+          "commit": {
+            "abbreviatedOid": "f7e7c56"
+          },
+          "author": "Maisy-ML",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "reviewed changes",
+          "createdAt": "2024-06-28T07:17:57Z",
+          "updatedAt": "2024-06-28T07:17:57Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOMG72Xc5_SsIq",
+          "commit": {
+            "abbreviatedOid": "f7e7c56"
+          },
+          "author": "liuchunchi",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-06-24T12:04:11Z",
+          "updatedAt": "2024-06-28T07:39:05Z",
+          "comments": [
+            {
+              "originalPosition": 22,
+              "body": "If the Orchestration Controller contains Orchestration and Controller, should Controller be an indepedent role? \r\n\r\nWhat is the \"policy\" if i may ask?",
+              "createdAt": "2024-06-24T12:04:11Z",
+              "updatedAt": "2024-06-28T07:39:05Z"
             }
           ]
         }
@@ -198,6 +233,107 @@
       },
       "comments": [],
       "reviews": []
+    },
+    {
+      "number": 4,
+      "id": "PR_kwDOMG72Xc5z3ATC",
+      "title": "add description for MCMO",
+      "url": "https://github.com/liuchunchi/nasr-architecture/pull/4",
+      "state": "OPEN",
+      "author": "liuchunchi",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "MCMO- multi client multi operator, more general situation",
+      "createdAt": "2024-06-28T07:43:30Z",
+      "updatedAt": "2024-06-28T08:45:11Z",
+      "baseRepository": "liuchunchi/nasr-architecture",
+      "baseRefName": "main",
+      "baseRefOid": "4bc3cdc4e7041627157240e48323d8a5c739dbb4",
+      "headRepository": "liuchunchi/nasr-architecture",
+      "headRefName": "liu-update-arch",
+      "headRefOid": "8bde600763b29ceed84291a260ffa7ad56635000",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "liuchunchi",
+          "authorAssociation": "OWNER",
+          "body": "@Maisy-ML Revised. ",
+          "createdAt": "2024-06-28T08:45:10Z",
+          "updatedAt": "2024-06-28T08:45:10Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMG72Xc5__k8e",
+          "commit": {
+            "abbreviatedOid": "fddf9a7"
+          },
+          "author": "Maisy-ML",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "I have reviewed and have two comments",
+          "createdAt": "2024-06-28T08:31:27Z",
+          "updatedAt": "2024-06-28T08:35:29Z",
+          "comments": [
+            {
+              "originalPosition": 61,
+              "body": "Usually, response is used more than answer, respond report",
+              "createdAt": "2024-06-28T08:31:27Z",
+              "updatedAt": "2024-06-28T08:35:29Z"
+            },
+            {
+              "originalPosition": 96,
+              "body": "I think \"verifier from vendor A\" is better than verifier vendor A ",
+              "createdAt": "2024-06-28T08:34:18Z",
+              "updatedAt": "2024-06-28T08:35:29Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMG72Xc5__o6-",
+          "commit": {
+            "abbreviatedOid": "fddf9a7"
+          },
+          "author": "liuchunchi",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-06-28T08:40:15Z",
+          "updatedAt": "2024-06-28T08:40:15Z",
+          "comments": [
+            {
+              "originalPosition": 61,
+              "body": "It is actually answer/report, but i get your point. \r\nI will just leave \"report\"",
+              "createdAt": "2024-06-28T08:40:15Z",
+              "updatedAt": "2024-06-28T08:40:15Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOMG72Xc5__pAc",
+          "commit": {
+            "abbreviatedOid": "fddf9a7"
+          },
+          "author": "liuchunchi",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-06-28T08:40:25Z",
+          "updatedAt": "2024-06-28T08:40:25Z",
+          "comments": [
+            {
+              "originalPosition": 96,
+              "body": "OK",
+              "createdAt": "2024-06-28T08:40:25Z",
+              "updatedAt": "2024-06-28T08:40:25Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
