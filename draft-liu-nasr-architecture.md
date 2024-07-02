@@ -9,16 +9,16 @@ number:
 date:
 consensus: true
 v: 3
-# area: AREA
-# workgroup: WG Working Group
+area: SEC AREA
+workgroup: NASR BoF
 keyword:
  - NASR
  - Secure Routing
 
 venue:
-#  group: WG
-#  type: Working Group
-#  mail: WG@example.com
+group: NASR
+type: BOF
+mail: nasr@ietf.org
 #  arch: https://example.com/WG
   github: "liuchunchi/nasr-architecture"
   latest: "https://liuchunchi.github.io/nasr-architecture/draft-liu-nasr-architecture.html"
@@ -26,8 +26,16 @@ venue:
 author:
  -
     fullname: "Chunchi Liu"
-    organization: Your Organization Here
+    organization: Huawei
     email: "liuchunchi@huawei.com"
+ -
+    fullname: "Meiling Chen"
+    organization: China Mobile
+    email: "chenmeiling@chinamobile.com"
+ -
+    fullname: "Diego Lopez"
+    organization: Telefonica
+    email: "diego.r.lopez@telefonica.com"
 
 normative:
 
@@ -257,4 +265,4 @@ This document has no IANA actions.
 # Acknowledgments
 {:numbered="false"}
 
-TODO acknowledge.
+We sincerely thank contribution from NASR mailing list.
