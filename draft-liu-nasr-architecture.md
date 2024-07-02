@@ -204,27 +204,20 @@ Report: An auditable result that compares the actually received network service 
 
 # Orchestration
 
-The orchestration process collects client's network and security requests and output configurations. The Orchestrator/Controller then distribute them to the attester/device using NETCONF/YANG or other control plane protocols. In the first case, a new YANG module needs to be defined.  
+The orchestration process collects client's path requests and output configurations. The Orchestrator/Controller then distribute them to the attester/device using NETCONF/YANG or other control plane protocols. In the first case, a new YANG module needs to be defined.  
 
-+--------------------------------------------+       
-|                                            |       
-| network request +------------------------+ |       
-|  -------------->|                        | |       
-|security request |Orchestrator/Controller | |       
-|  -------------->|                        | |       
-|                 +--+---------------------+ |       
-|                    |                       |       
-+--------------------+-----------------------+       
-                     |                               
-                     |Path and Security Configuration
-                     |(YANG/NETCONF)                 
-                     |                               
-               +-----v------------+                  
-               |                  |                  
-               | Attester/Device  |                  
-               +------------------+                  
-
-
+               +------------------------+                 
+               |                        |                 
+Path Request   |Orchestrator/Controller |                 
+-------------->|                        |                 
+               +----------+-------------+                 
+                          |                               
+                          |Path and Security Configuration
+                          |(YANG/NETCONF)                 
+                          |                               
+                    +-----v------------+                  
+                    | Attester/Device  |                  
+                    +------------------+                                              
 
 # Security Considerations
 
