@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-07-02T01:24:07.196775+00:00",
+  "timestamp": "2024-07-04T01:23:59.332668+00:00",
   "repo": "liuchunchi/nasr-architecture",
   "labels": [
     {
@@ -239,24 +239,26 @@
       "id": "PR_kwDOMG72Xc5z3ATC",
       "title": "add description for MCMO",
       "url": "https://github.com/liuchunchi/nasr-architecture/pull/4",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "liuchunchi",
       "authorAssociation": "OWNER",
       "assignees": [],
       "labels": [],
       "body": "MCMO- multi client multi operator, more general situation",
       "createdAt": "2024-06-28T07:43:30Z",
-      "updatedAt": "2024-06-28T08:45:11Z",
+      "updatedAt": "2024-07-02T02:35:53Z",
       "baseRepository": "liuchunchi/nasr-architecture",
       "baseRefName": "main",
       "baseRefOid": "4bc3cdc4e7041627157240e48323d8a5c739dbb4",
       "headRepository": "liuchunchi/nasr-architecture",
       "headRefName": "liu-update-arch",
       "headRefOid": "8bde600763b29ceed84291a260ffa7ad56635000",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-07-02T02:35:53Z",
+      "mergedAt": "2024-07-02T02:35:53Z",
+      "mergedBy": "liuchunchi",
+      "mergeCommit": {
+        "oid": "7d05e951684a589cac65d425ebb6ef9322dc465e"
+      },
       "comments": [
         {
           "author": "liuchunchi",
@@ -334,6 +336,89 @@
           ]
         }
       ]
+    },
+    {
+      "number": 5,
+      "id": "PR_kwDOMG72Xc50KD5Q",
+      "title": "Update draft-liu-nasr-architecture.md",
+      "url": "https://github.com/liuchunchi/nasr-architecture/pull/5",
+      "state": "MERGED",
+      "author": "Maisy-ML",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "modified the orchestrator diagram",
+      "createdAt": "2024-07-02T07:29:03Z",
+      "updatedAt": "2024-07-03T08:35:11Z",
+      "baseRepository": "liuchunchi/nasr-architecture",
+      "baseRefName": "main",
+      "baseRefOid": "7d05e951684a589cac65d425ebb6ef9322dc465e",
+      "headRepository": "liuchunchi/nasr-architecture",
+      "headRefName": "Maisy-ML-patch-1",
+      "headRefOid": "897e28aaf6868f16cd74f02987fa3f8d501ca356",
+      "closedAt": "2024-07-03T08:35:11Z",
+      "mergedAt": "2024-07-03T08:35:11Z",
+      "mergedBy": "liuchunchi",
+      "mergeCommit": {
+        "oid": "8ba3f88b715228014e54df47de829ac9782a3717"
+      },
+      "comments": [
+        {
+          "author": "liuchunchi",
+          "authorAssociation": "OWNER",
+          "body": "please see my revisions @Maisy-ML ",
+          "createdAt": "2024-07-02T08:13:29Z",
+          "updatedAt": "2024-07-02T08:13:29Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMG72Xc6AVhTP",
+          "commit": {
+            "abbreviatedOid": "897e28a"
+          },
+          "author": "liuchunchi",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-07-02T08:42:39Z",
+          "updatedAt": "2024-07-02T08:42:40Z",
+          "comments": [
+            {
+              "originalPosition": 27,
+              "body": "ok",
+              "createdAt": "2024-07-02T08:42:39Z",
+              "updatedAt": "2024-07-02T08:42:40Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "id": "PR_kwDOMG72Xc50S4L8",
+      "title": "Liu add background and goal",
+      "url": "https://github.com/liuchunchi/nasr-architecture/pull/6",
+      "state": "OPEN",
+      "author": "liuchunchi",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-07-03T08:40:17Z",
+      "updatedAt": "2024-07-03T09:01:35Z",
+      "baseRepository": "liuchunchi/nasr-architecture",
+      "baseRefName": "main",
+      "baseRefOid": "8ba3f88b715228014e54df47de829ac9782a3717",
+      "headRepository": "liuchunchi/nasr-architecture",
+      "headRefName": "liu-add-background-and-goal",
+      "headRefOid": "915440a649f184b6e7e76057a5f9807699a26462",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
