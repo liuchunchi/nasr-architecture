@@ -59,11 +59,14 @@ Endpoints typically perceives no information of the properties of the paths over
 
 However, clients with high security and privacy requirements are not anymore satisfied with signing and encryption mechanisms only; they now request information of the trustworthiness or security properties of the network paths over which the traffic is carried, preferably to choose the desired properties. For example, some clients may require their data to traverse through trusted devices and trusted links only, in order to avoid data being exposed to insecure devices, causing leakage.
 
-Remote Attestation Procedures (RATS) working group developed procedures to establish a level of confidence in the trustworthiness of a device or a system. By providing objective, verifiable evidence and proof of a device’s trust or security properties, clients can expect the device function correctly and deterministically, as anticipated.
+Remote Attestation Procedures (RATS) working group developed procedures to establish a level of confidence in the trustworthiness of a device or a system. RATS provide 1. objective, appraisable evidence of a device’s trust or security properties, and 2. verifiable integrity proof to the evidence (Attestation Result). Devices with integrity proof are expected to function correctly and deterministically, as anticipated. 
 
-Network Attestation for Secure Routing (NASR) aims to create a robust system that provides objective, verifiable evidence of network path properties that can be used by routing technologies to steer traffic towards. Following the same RATS philosophy and building on top of it, NASR also aim to provide objective, verifiable evidence and proof of trust or security properties, but on a path level. Additionally, NASR also aim to provide verifiable proof that certain packets/flows traveled such paths. With NASR, clients can have the ability to be aware of, request and verify specific path properties, and have confidence that certain packets or flow indeed traversed the requested path.
+Following the same RATS philosophy and building on top of it, Network Attestation for Secure Routing （NASR) aims at a solution specifically designed for the routing use case. NASR aims to provide 1. objective, appraisable evidence of a routing path’s trust or security properties, 2. verifiable integrity proof in the path-level, and 3. verifiable proof that certain packets/flows traveled such paths. 
+
+Altogether, the NASR goal is to 1. Allow clients to choose desired security attributes of his received network service, 2. Achieve dependable forwarding by routing on top of only devices that satisfies certain trust requirements, and 3. prove to the clients that certain packets or flows traversed a network path that has certain trust or security properties.
 
 This document introduces the architecture, entities, interactive procedures, and messages sent between the entities, so to achieve the NASR objective.
+
 
 # Use Cases {#usecases}
 
@@ -73,18 +76,7 @@ Please refer to the use cases identified in {{-NASRREQ}}
 
 Please refer to the terminologies identified in {{-NASRTERM}}. Terminology from RATS Architecture document {{RFC9344}} also applies. 
 
-# Background {#back}
-
-RATS (Remote ATtestation ProcedureS) working group developed procedures to establish a level of confidence in the trustworthiness of a device or a system. RATS provide 1. objective, appraisable evidence of a device’s trust or security properties, and 2. verifiable integrity proof to the evidence (Attestation Result). Devices with integrity proof are expected to function correctly and deterministically, as anticipated. 
-
 NASR will leverage RATS implementations and specifications, including but not limited to {{-AR4SI}}{{-CORIM}}.
-
-# Goals {#goals}
-
-Following the same RATS philosophy and building on top of it, NASR aims at a solution specifically designed for the routing use case. NASR aims to provide 1. objective, appraisable evidence of a routing path’s trust or security properties, 2. verifiable integrity proof in the path-level, and 3. verifiable proof that certain packets/flows traveled such paths. 
-
-Altogether, the goal is to 1. Allow clients to choose desired security attributes of his received network service, 2. Achieve dependable forwarding by routing on top of only devices that satisfies certain trust requirements, and 3. prove to the clients that certain packets or flows traversed a network path that has certain trust or security properties.
-
 
 # Architectural Overview
 
@@ -205,13 +197,29 @@ Figure 3. Verifier deployed in operators
 
 The existing roles from RATS Architecture document {{RFC9344}} applies. 
 
-Attester: The definition in {{RFC9344}} applies. Additionally, it can be performed by either a physical device or a virtual function. The Attester can produce Evidence and update Path Evidence with Attestation Result/Raw Evidence/Proof of Transit
+Attester: The definition in {{RFC9344}} applies. Additionally, it can be performed by either a physical device or a virtual function. The Attester can update Path Evidence with his Attestation Result/Raw Evidence/Proof of Transit.
 
-    Produces: Evidence
+    Produces: (updated) Path Evidence
+
+Relying Party: The definition in {{RFC9344}} applies. Additionally, it creates Path Request to the Orchestrator, and receive Reports from Orchestrator as an auditable result, comparing the actually received network service versus the requested PR attributes. 
+
+    Produces: Path Request
+
+    Consumes: Report
+
+In the case where an Attester is deployed in the customer premises, the Relying Party could also start the unfilled Path Evidence inquiry at his side. 
 
 New role(s) are defined below.
 
-Orchestrator: A role performed by an entity (typically a controller or a special device) that receives a Path Request from the Relying Party, send unfilled Path Evidence (PE) inquiry to Attesters, collects Path Attestation Result (PAR) from the Verifier, and send PAR back to the Relying Party.
+Orchestrator: A role performed by an entity (typically a controller or a special device) that performs two functions: path orchestration and path attestation. The input and output of different functions are different. 
+
+- Path Orchestration: The Orchestrator receives a Path Request from the Relying Party. After path computation/orchestration, he creates configurations to be distributed to the Attesters/devices.  
+
+    Consumes: Path Request
+
+    Produces: Configurations
+
+- Path Attestation: The Orchestrator receives a Path Request from the Relying Party, send unfilled Path Evidence (PE) inquiry to Attesters, collects Path Attestation Result (PAR) from the Verifier, and send PAR back to the Relying Party.
 
     Consumes: Path Request, Path Attestation Result
 
@@ -247,25 +255,28 @@ Path Evidence: The output generated by the Orchestrator and a set of Attesters, 
 
     Updated By: Attester(s)
 
+Report: An auditable result that compares the actually received network service versus the requested PR attributes. 
+
+    Created By: Orchestrator
+
+    Consumed By: Relying Party
+
 # Orchestration
 
-The orchestration controller includes two major functions, one is orchestrater and the other is the controller.  The core function of the orchestrator is to obtain input information and generate corresponding policy ; The function of the controller is to follow the policy of the orchestrator and distribute the policy to the actual nodes.
+The orchestration process collects client's path requests and output configurations. The Orchestrator/Controller then distribute them to the attester/device using NETCONF/YANG or other control plane protocols. In the first case, a new YANG module needs to be defined.  
 
-+----------------------------------------------------------------+
-|                                                                |
-|  network status +-------------+                 +------------+ |
-|  -------------->|             |path and security|            | |
-| security status |Orchestrator +---------------->| Controller | |
-|  -------------->|             | policy          |            | |
-|                 +-------------+                 +------------+ |
-|                                                                |
-+----------------------------------------------------------------+
-
-
-# Conventions and Definitions
-
-{::boilerplate bcp14-tagged}
-
+               +------------------------+                 
+               |                        |                 
+Path Request   |Orchestrator/Controller |                 
+-------------->|                        |                 
+               +----------+-------------+                 
+                          |                               
+                          |Path and Security Configuration
+                          |(YANG/NETCONF)                 
+                          |                               
+                    +-----v------------+                  
+                    | Attester/Device  |                  
+                    +------------------+                                              
 
 # Security Considerations
 
