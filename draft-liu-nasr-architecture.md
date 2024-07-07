@@ -1,27 +1,21 @@
 ---
-title: Network Attestation for Secure Routing (NASR) Architecture
-abbrev: NASR Architecture
+stand_alone: true
 category: info
+submissionType: IETF
+ipr: trust200902
+lang: en
 
+title: Network Attestation for Secure Routing (NASR) Architecture
+abbrev: NASR-Architecture
 docname: draft-liu-nasr-architecture-latest
-submissiontype: IETF  # also: "independent", "editorial", "IAB", or "IRTF"
-number:
-date:
-consensus: true
-v: 3
-area: SEC AREA
-workgroup: NASR BoF
-keyword:
+
+area: SEC
+workgroup: NASR
+type: BOF
+
+kw:
  - NASR
  - Secure Routing
-
-venue:
-group: NASR
-type: BOF
-mail: nasr@ietf.org
-#  arch: https://example.com/WG
-  github: "liuchunchi/nasr-architecture"
-  latest: "https://liuchunchi.github.io/nasr-architecture/draft-liu-nasr-architecture.html"
 
 author:
  -
@@ -33,9 +27,14 @@ author:
     organization: China Mobile
     email: "chenmeiling@chinamobile.com"
  -
+    fullname: "Michael Richardson"
+    organization: Sandelman Software Works
+    email: "mcr@sandelman.ca"
+ -
     fullname: "Diego Lopez"
     organization: Telefonica
     email: "diego.r.lopez@telefonica.com"
+
 
 normative:
 
@@ -57,7 +56,7 @@ This document provides an architecture overview of NASR entities, interactive pr
 
 Endpoints typically perceives no information of the properties of the paths over which their traffic is carried, especially when the properties are security-related. Therefore, data security (confidentiality, integrity and authenticity) has been insofar primarily protected by traffic signing and encryption mechanisms. Endpoint cannot choose devices with specific properties to bear transmission.
 
-However, clients with high security and privacy requirements are not anymore satisfied with signing and encryption mechanisms only; they now request information of the trustworthiness or security properties of the network paths over which the traffic is carried, preferably to choose the desired properties. For example, some clients may require their data to traverse through trusted devices and trusted links only, in order to avoid data being exposed to insecure devices, causing leakage.
+However, clients with high security and privacy requirements are not anymore satisfied with traffic signing and encryption mechanisms only; they now request information of the trustworthiness or security properties of the network paths over which the traffic is carried, preferably to choose the desired properties. For example, some clients may require their data to traverse through trusted devices and trusted links only, in order to avoid data being exposed to insecure devices, causing leakage.
 
 Remote Attestation Procedures (RATS) working group developed procedures to establish a level of confidence in the trustworthiness of a device or a system. RATS provide 1. objective, appraisable evidence of a device’s trust or security properties, and 2. verifiable integrity proof to the evidence (Attestation Result). Devices with integrity proof are expected to function correctly and deterministically, as anticipated.
 
@@ -81,34 +80,34 @@ NASR will leverage RATS implementations and specifications, including but not li
 # Architectural Overview
 
 ## Single client - single operator (An Oversimplification)
-
-      ┌────────────────────┐
-      │                    │
-      │    Relying Party   │
-      │                    │
-      │                    │
-      └────┬─────────▲─────┘
-    Path   │         │
-    Request│         │ Report
-           │         │
-      ┌────▼─────────┴─────┐                                    ┌────────────────────┐
-      │                    │     Path Attestation Result (PAR)  │                    │
-      │    Orchestrator    │                                    │      Verifier      │
-      │                    ◄────────────────────────────────────┤                    │
-      │                    │                                    │                    │
-      └────┬───────────────┘                                    └──────────▲─────────┘
-           │                                                               │
-  Path     │                                                               │  Path
-  Evidence │                                                               │  Evidence
-  (PE)     │                                                               │  (PE)
-      ┌────▼───────────────┐       ┌────────────────────┐       ┌──────────┴─────────┐
-      │                    │       │                    │       │                    │
-      │      Attester      ├───────►     Attester...    ├───────►      Attester      │
-      │                    │       │                    │       │                    │
-      └────────────────────┘       └────────────────────┘       └────────────────────┘
-                        Update PE with                Update PE with
-                          AR/RE/PoT                     AR/RE/PoT
-
+                                                                                      
+    +--------------------+                                                          
+    |                    |                                                          
+    |    Relying Party   |                                                          
+    |                    |                                                          
+    |                    |                                                          
+    +----+---------^-----+                                                          
+  Path   |         |                                                                
+  Request|         | Report                                                         
+         |         |                                                                
+    +----v---------+-----+                                    +--------------------+
+    |                    |     Path Attestation Result (PAR)  |                    |
+    |    Orchestrator    |                                    |      Verifier      |
+    |                    <------------------------------------+                    |
+    |                    |                                    |                    |
+    +----+---------------+                                    +----------^---------+
+         |                                                               |          
+Path     |                                                               |  Path    
+Evidence |                                                               |  Evidence
+(PE)     |                                                               |  (PE)    
+    +----v---------------+       +--------------------+       +----------+---------+
+    |                    |       |                    |       |                    |
+    |      Attester      +------->     Attester...    +------->      Attester      |
+    |                    |       |                    |       |                    |
+    +--------------------+       +--------------------+       +--------------------+
+                      Update PE with                Update PE with                  
+                        AR/RE/PoT                     AR/RE/PoT                     
+                        
 Figure 1. NASR Architecture-- Oversimplified
 
 Fig. 1 is an oversimplification to ease understanding of the concept. In a single client - single operator scenario, a client (Relying Party) sends a Path Request containing his security or trustworthiness requirements of a leased line. The Orchestrator, run by the operator, would choose qualifying devices (Attesters) and send out an empty Path Evidence inquiry. The Attesters update the Path Evidence with its own Raw Evidence or Attestation Results one-by-one. The Verifier verifies the filled Path Evidence, produce a Path Attestation Result (PAR), and sends it back to the Relying Party. The Relying Party now have confidence over the trustworthiness of received network. After the end-to-end service is delivered, during service, Proof-of-Transits are also created by each Attester, being sent in-band accumulatively or out-of-band, to detect unexpected routing deviation.
@@ -118,34 +117,34 @@ This process is repeated periodically to continuously assure compliance.
 
 ## Multi Client - Multi Operator
 
-                          +----------------------------------------------------------------+
-                          |                                                                |
-                          |       +------------+                 +------------+            |
-                          |       | Verifier   |                 | Verifier   |    ...     |
-                          |       | Vendor A   |                 | Vendor B   |            |
-+-------------------+     |       +----^-----+-+                 +---^----+---+   Vendors  |    +-------------------+
-|                   |     |            |     |                       |    |                |    |                   |
-|                   |     +------------+-----+-----------------------+----+----------------+    |                   |
-|    Client  A      |                  |     |                       |    |                     |    Client  B      |
-|                   |  Path            |     |                       |    |         Path        |                   |
-|  +--------------+ |  Request         |     |                       |    |         Attestation |   +------------+  |
-|  |  Relying     +-+----------+ +-----+-----+-------+        +------+----+-------+ Result (PAR)|   |  Relying   |  |
-|  |  Party       | |          | |     |     |       |        |      |    |       |     +-------+---+  Party     |  |
-|  +---+----------+<+--------+ | |     |     |       |  Intra |      |    |       |     |       |   +------------+  |
-|      |            |        | | |  RE |     |AR     |  ISP   |   RE |    | AR    |     |       |           ^       |
-|      |            |        | +-> +---+-----v-----+ |  API   |  +---+----v----+  |     |       |           |       |
-|      |Path        | Report |   | | Orchestrator  +-+--------+->| Orchestrator|<-+-----+       |           |       |
-|      |Evidence    |        +---+ +---^-----+-----+ |        |  +---^----+----+  |             |           |       |
-|      |            |            |     |     |       |        |      |    |       |             |           |       |
-|      |            |            |  RE |     |AR     |        |   RE |    | AR    |             |           |       |
-|   +--v--------+   |            | +---+-----v-----+ |        |  +---+----v-----+ |             |   +-------+---+   |
-|   | Attester  |   |            | |  Attester     | |        |  |  Attester    | |             |   | Attester  |   |
-|   |           +---+------------+>|  Vendor A     +-+--------+->|  Vendor B    +-+-------------+-->|           |   |
-|   +-----------+   |  Update PE | +---------------+ |        |  +--------------+ |  Update PE  |   +-----------+   |
-|                   |    with    |                   |        |                   |    with     |                   |
-|                   |  AR/RE/PoT |  Operator 1       |        |   Operator 2      |  AR/RE/PoT  |                   |
-+-------------------+            +-------------------+        +-------------------+             +-------------------+
-
+                           ┌────────────────────────────────────────────────────────────────┐                          
+                           │                                                                │                          
+                           │       ┌────────────┐                 ┌────────────┐            │                          
+                           │       │ Verifier   │                 │ Verifier   │    ...     │                          
+                           │       │ Vendor A   │                 │ Vendor B   │            │                          
+ ┌───────────────────┐     │       └────▲─────┬─┘                 └───▲────┬───┘   Vendors  │    ┌───────────────────┐ 
+ │                   │     │            │     │                       │    │                │    │                   │ 
+ │                   │     └────────────┼─────┼───────────────────────┼────┼────────────────┘    │                   │ 
+ │    Client  A      │                  │     │                       │    │                     │    Client  B      │ 
+ │                   │  Path            │     │                       │    │         Path        │                   │ 
+ │  ┌──────────────┐ │  Request         │     │                       │    │         Attestation │   ┌────────────┐  │ 
+ │  │  Relying     ├─┼──────────┐ ┌─────┼─────┼───────┐        ┌──────┼────┼───────┐ Result (PAR)│   │  Relying   │  │ 
+ │  │  Party       │ │          │ │     │     │       │        │      │    │       │     ┌───────┼───┤  Party     │  │ 
+ │  └───┬──────────┘◄├────────┐ │ │     │     │       │  Intra │      │    │       │     │       │   └────────────┘  │ 
+ │      │            │        │ │ │  RE │     │AR     │  ISP   │   RE │    │ AR    │     │       │           ▲       │ 
+ │      │            │ Answer │ └─► ┌───┴─────▼─────┐ │  API   │  ┌───┴────▼────┐  │     │       │           │       │ 
+ │      │Path        │ Report │   │ │ Orchestrator  ├─┼────────┼─►│ Orchestrator│◄─┼─────┘       │           │       │ 
+ │      │Evidence    │        └───┤ └───▲─────┬─────┘ │        │  └───▲────┬────┘  │             │           │       │ 
+ │      │            │            │     │     │       │        │      │    │       │             │           │       │ 
+ │      │            │            │  RE │     │AR     │        │   RE │    │ AR    │             │           │       │ 
+ │   ┌──▼────────┐   │            │ ┌───┴─────▼─────┐ │        │  ┌───┴────▼─────┐ │             │   ┌───────┴───┐   │ 
+ │   │ Attester  │   │            │ │  Attester     │ │        │  │  Attester    │ │             │   │ Attester  │   │ 
+ │   │           ├───┼────────────┤►│  Vendor A     ├─┼────────┼─►│  Vendor B    ├─┼─────────────┼──►│           │   │ 
+ │   └───────────┘   │  Update PE │ └───────────────┘ │        │  └──────────────┘ │  Update PE  │   └───────────┘   │ 
+ │                   │    with    │                   │        │                   │    with     │                   │ 
+ │                   │  AR/RE/PoT │  Operator 1       │        │   Operator 2      │  AR/RE/PoT  │                   │ 
+ └───────────────────┘            └───────────────────┘        └───────────────────┘             └───────────────────┘ 
+                                                                                                                       
 Figure 2. NASR Architecture
 
 In a more generalized scenario, due to geographic distances, a single operator cannot span across a long distance to deliver an end-to-end service-- multiple operators collaborate to deliver it. The Customer A would send the Path Request to the Operator nearest to him (Operator 1). Operator 1 pass down the Path Request to the collaborating operators, through an intra-ISP API. Operators of different domains choose qualifying devices to altogether orchestrate the path.
@@ -153,43 +152,41 @@ In a more generalized scenario, due to geographic distances, a single operator c
 Relying Party (customer) then sends the Path Evidence inquiry to check and attest to this path. Following the same procedure, the client of other side would return the Path Attestation Result back, through the operators. The Operator 1 would send back a comprehensive answer/report to the Client.
 
 Also, the operators may have heterogeneous network devices from different vendors. Since vendors provide Verifier software/hardware and Reference Values, Verifiers can be deployed either outside the operators (Fig 2) or inside of the operators (Fig 3).
-
-
-                          +----------------------------------------------------------------+
-                          |                                                                |
-                          |       +------------+                 +------------+            |
-                          |       | Verifier   |                 | Verifier   |            |
-                          |       | Owner      |                 | Owner      |    ...     |
-                          |       | Vendor A   |                 | Vendor B   |            |
-                          |       +-------+----+                 +------+-----+   Vendors  |
-                          |               |                             |                  |
-                          +---------------+-----------------------------+------------------+
-                                          |  Verifier software/hardware |
-                                          |  Reference Value            |
-+-------------------+            +--------+----------+        +---------+---------+             +-------------------+
-|                   |            |        |          |        |         |         |             |                   |
-|                   |            |  +-----v------+   |        |   +-----v------+  |             |                   |
-|    Client  A      |            |  | Verifier   |   |        |   | Verifier   |  |             |    Client  B      |
-|                   |  Path      |  | from       |   |        |   | from       |  | Path        |                   |
-|  +--------------+ |  Request   |  | Vendor A   |   |        |   | Vendor B   |  | Attestation |   +------------+  |
-|  |  Relying     +-+----------+ |  +--+-----+---+   |        |   +--+----+----+  | Result (PAR)|   |  Relying   |  |
-|  |  Party       | |          | |     |     |       |        |      |    |       |     +-------+---+  Party     |  |
-|  +---+----------+<+--------+ | |     |     |       |  Intra |      |    |       |     |       |   +------------+  |
-|      |            |        | | |  RE |     |AR     |  ISP   |   RE |    | AR    |     |       |           ^       |
-|      |            |        | +-> +---+-----v-----+ |  API   |  +---+----v----+  |     |       |           |       |
-|      |Path        | Report |   | | Orchestrator  +-+--------+->| Orchestrator|<-+-----+       |           |       |
-|      |Evidence    |        +---+ +---^-----+-----+ |        |  +---^----+----+  |             |           |       |
-|      |            |            |     |     |       |        |      |    |       |             |           |       |
-|      |            |            |  RE |     |AR     |        |   RE |    | AR    |             |           |       |
-|   +--v--------+   |            | +---+-----v-----+ |        |  +---+----v-----+ |             |   +-------+---+   |
-|   | Attester  |   |            | |  Attester     | |        |  |  Attester    | |             |   | Attester  |   |
-|   |           +---+------------+-+  Vendor A     +-+--------+->|  Vendor B    +-+-------------+-->|           |   |
-|   +-----------+   |  Update PE | +---------------+ |        |  +--------------+ |  Update PE  |   +-----------+   |
-|                   |    with    |                   |        |                   |    with     |                   |
-|                   |  AR/RE/PoT |  Operator 1       |        |   Operator 2      |  AR/RE/PoT  |                   |
-+-------------------+            +-------------------+        +-------------------+             +-------------------+
-
-
+                                                                                                                        
+                           ┌────────────────────────────────────────────────────────────────┐                           
+                           │                                                                │                           
+                           │       ┌────────────┐                 ┌────────────┐            │                           
+                           │       │ Verifier   │                 │ Verifier   │            │                           
+                           │       │ Owner      │                 │ Owner      │    ...     │                           
+                           │       │ Vendor A   │                 │ Vendor B   │            │                           
+                           │       └───────┬────┘                 └──────┬─────┘   Vendors  │                           
+                           │               │                             │                  │                           
+                           └───────────────┼─────────────────────────────┼──────────────────┘                           
+                                           │  Verifier software/hardware │                                              
+                                           │  Reference Value            │                                              
+ ┌───────────────────┐            ┌────────┼──────────┐        ┌─────────┼─────────┐             ┌───────────────────┐  
+ │                   │            │        │          │        │         │         │             │                   │  
+ │                   │            │  ┌─────▼──────┐   │        │   ┌─────▼──────┐  │             │                   │  
+ │    Client  A      │            │  │ Verifier   │   │        │   │ Verifier   │  │             │    Client  B      │  
+ │                   │  Path      │  │ from       │   │        │   │ from       │  │ Path        │                   │  
+ │  ┌──────────────┐ │  Request   │  │ Vendor A   │   │        │   │ Vendor B   │  │ Attestation │   ┌────────────┐  │  
+ │  │  Relying     ├─┼──────────┐ │  └──┬─────┬───┘   │        │   └──┬────┬────┘  │ Result (PAR)│   │  Relying   │  │  
+ │  │  Party       │ │          │ │     │     │       │        │      │    │       │     ┌───────┼───┤  Party     │  │  
+ │  └───┬──────────┘◄├────────┐ │ │     │     │       │  Intra │      │    │       │     │       │   └────────────┘  │  
+ │      │            │        │ │ │  RE │     │AR     │  ISP   │   RE │    │ AR    │     │       │           ▲       │  
+ │      │            │        │ └─► ┌───┴─────▼─────┐ │  API   │  ┌───┴────▼────┐  │     │       │           │       │  
+ │      │Path        │ Report │   │ │ Orchestrator  ├─┼────────┼─►│ Orchestrator│◄─┼─────┘       │           │       │  
+ │      │Evidence    │        └───┤ └───▲─────┬─────┘ │        │  └───▲────┬────┘  │             │           │       │  
+ │      │            │            │     │     │       │        │      │    │       │             │           │       │  
+ │      │            │            │  RE │     │AR     │        │   RE │    │ AR    │             │           │       │  
+ │   ┌──▼────────┐   │            │ ┌───┴─────▼─────┐ │        │  ┌───┴────▼─────┐ │             │   ┌───────┴───┐   │  
+ │   │ Attester  │   │            │ │  Attester     │ │        │  │  Attester    │ │             │   │ Attester  │   │  
+ │   │           ├───┼────────────┼─┤  Vendor A     ├─┼────────┼─►│  Vendor B    ├─┼─────────────┼──►│           │   │  
+ │   └───────────┘   │  Update PE │ └───────────────┘ │        │  └──────────────┘ │  Update PE  │   └───────────┘   │  
+ │                   │    with    │                   │        │                   │    with     │                   │  
+ │                   │  AR/RE/PoT │  Operator 1       │        │   Operator 2      │  AR/RE/PoT  │                   │  
+ └───────────────────┘            └───────────────────┘        └───────────────────┘             └───────────────────┘  
+                                                                                                  
 
 Figure 3. Verifier deployed in operators
 
