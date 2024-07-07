@@ -1,0 +1,400 @@
+
+
+
+
+NASR                                                              C. Liu
+Internet-Draft                                                    Huawei
+Intended status: Informational                                   M. Chen
+Expires: 8 January 2025                                     China Mobile
+                                                           M. Richardson
+                                                Sandelman Software Works
+                                                                D. Lopez
+                                                              Telefonica
+                                                             7 July 2024
+
+
+       Network Attestation for Secure Routing (NASR) Architecture
+                   draft-liu-nasr-architecture-latest
+
+Abstract
+
+   This document provides an architecture overview of NASR entities,
+   interactive procedures and messages.
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at https://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on 8 January 2025.
+
+Copyright Notice
+
+   Copyright (c) 2024 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents (https://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
+   Please review these documents carefully, as they describe your rights
+   and restrictions with respect to this document.  Code Components
+   extracted from this document must include Revised BSD License text as
+   described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Revised BSD License.
+
+Table of Contents
+
+   1.  Introduction
+   2.  Use Cases
+   3.  Terminology
+   4.  Architectural Overview
+     4.1.  Single client - single operator (An Oversimplification)
+     4.2.  Multi Client - Multi Operator
+   5.  Roles
+   6.  Conceptual Messages
+   7.  Orchestration
+   8.  Security Considerations
+   9.  IANA Considerations
+   10. Informative References
+   Acknowledgments
+   Authors' Addresses
+
+1.  Introduction
+
+   Endpoints typically perceives no information of the properties of the
+   paths over which their traffic is carried, especially when the
+   properties are security-related.  Therefore, data security
+   (confidentiality, integrity and authenticity) has been insofar
+   primarily protected by traffic signing and encryption mechanisms.
+   Endpoint cannot choose devices with specific properties to bear
+   transmission.
+
+   However, clients with high security and privacy requirements are not
+   anymore satisfied with traffic signing and encryption mechanisms
+   only; they now request information of the trustworthiness or security
+   properties of the network paths over which the traffic is carried,
+   preferably to choose the desired properties.  For example, some
+   clients may require their data to traverse through trusted devices
+   and trusted links only, in order to avoid data being exposed to
+   insecure devices, causing leakage.
+
+   Remote Attestation Procedures (RATS) working group developed
+   procedures to establish a level of confidence in the trustworthiness
+   of a device or a system.  RATS provide 1. objective, appraisable
+   evidence of a device’s trust or security properties, and 2.
+   verifiable integrity proof to the evidence (Attestation Result).
+   Devices with integrity proof are expected to function correctly and
+   deterministically, as anticipated.
+
+   Following the same RATS philosophy and building on top of it, Network
+   Attestation for Secure Routing （NASR) aims at a solution specifically
+   designed for the routing use case.  NASR aims to provide 1.
+   objective, appraisable evidence of a routing path’s trust or security
+   properties, 2. verifiable integrity proof in the path-level, and 3.
+   verifiable proof that certain packets/flows traveled such paths.
+
+   Altogether, the NASR goal is to 1.  Allow clients to choose desired
+   security attributes of his received network service, 2.  Achieve
+   dependable forwarding by routing on top of only devices that
+   satisfies certain trust requirements, and 3. prove to the clients
+   that certain packets or flows traversed a network path that has
+   certain trust or security properties.
+
+   This document introduces the architecture, entities, interactive
+   procedures, and messages sent between the entities, so to achieve the
+   NASR objective.
+
+2.  Use Cases
+
+   Please refer to the use cases identified in
+   [I-D.liu-nasr-requirements-01]
+
+3.  Terminology
+
+   Please refer to the terminologies identified in
+   [I-D.richardson-nasr-terminology-01].  Terminology from RATS
+   Architecture document [RFC9344] also applies.
+
+   NASR will leverage RATS implementations and specifications, including
+   but not limited to [I-D.ietf-rats-ar4si-06][I-D.ietf-rats-corim-04].
+
+4.  Architectural Overview
+
+4.1.  Single client - single operator (An Oversimplification)
+
++--------------------+
+|                    |
+|    Relying Party   |
+|                    |
+|                    |
++----+---------^-----+   Path   |         |   Request|         | Report
+     |         |
++----v---------+-----+                                    +--------------------+
+|                    |     Path Attestation Result (PAR)  |                    |
+|    Orchestrator    |                                    |      Verifier      |
+|                    <------------------------------------+                    |
+|                    |                                    |                    |
++----+---------------+                                    +----------^---------+
+     |                                                               | Path     |                                                               |  Path Evidence |                                                               |  Evidence (PE)     |                                                               |  (PE)
++----v---------------+       +--------------------+       +----------+---------+
+|                    |       |                    |       |                    |
+|      Attester      +------->     Attester...    +------->      Attester      |
+|                    |       |                    |       |                    |
++--------------------+       +--------------------+       +--------------------+
+                  Update PE with                Update PE with
+                    AR/RE/PoT                     AR/RE/PoT
+
+   Figure 1.  NASR Architecture-- Oversimplified
+
+   Fig. 1 is an oversimplification to ease understanding of the concept.
+   In a single client - single operator scenario, a client (Relying
+   Party) sends a Path Request containing his security or
+   trustworthiness requirements of a leased line.  The Orchestrator, run
+   by the operator, would choose qualifying devices (Attesters) and send
+   out an empty Path Evidence inquiry.  The Attesters update the Path
+   Evidence with its own Raw Evidence or Attestation Results one-by-one.
+   The Verifier verifies the filled Path Evidence, produce a Path
+   Attestation Result (PAR), and sends it back to the Relying Party.
+   The Relying Party now have confidence over the trustworthiness of
+   received network.  After the end-to-end service is delivered, during
+   service, Proof-of-Transits are also created by each Attester, being
+   sent in-band accumulatively or out-of-band, to detect unexpected
+   routing deviation.
+
+   This process is repeated periodically to continuously assure
+   compliance.
+
+4.2.  Multi Client - Multi Operator
+
+                       ┌────────────────────────────────────────────────────────────────┐
+                       │                                                                │
+                       │       ┌────────────┐                 ┌────────────┐            │
+                       │       │ Verifier   │                 │ Verifier   │    ...     │
+                       │       │ Vendor A   │                 │ Vendor B   │            │  ┌───────────────────┐     │       └────▲─────┬─┘                 └───▲────┬───┘   Vendors  │    ┌───────────────────┐  │                   │     │            │     │                       │    │                │    │                   │  │                   │     └────────────┼─────┼───────────────────────┼────┼────────────────┘    │                   │  │    Client  A      │                  │     │                       │    │                     │    Client  B      │  │                   │  Path            │     │                       │    │         Path        │                   │  │  ┌──────────────┐ │  Request         │     │                       │    │         Attestation │   ┌────────────┐  │  │  │  Relying     ├─┼──────────┐ ┌─────┼─────┼───────┐        ┌──────┼────┼───────┐ Result (PAR)│   │  Relying   │  │  │  │  Party       │ │          │ │     │     │       │        │      │    │       │     ┌───────┼───┤  Party     │  │  │  └───┬──────────┘◄├────────┐ │ │     │     │       │  Intra │      │    │       │     │       │   └────────────┘  │  │      │            │        │ │ │  RE │     │AR     │  ISP   │   RE │    │ AR    │     │       │           ▲       │  │      │            │ Answer │ └─► ┌───┴─────▼─────┐ │  API   │  ┌───┴────▼────┐  │     │       │           │       │  │      │Path        │ Report │   │ │ Orchestrator  ├─┼────────┼─►│ Orchestrator│◄─┼─────┘       │           │       │  │      │Evidence    │        └───┤ └───▲─────┬─────┘ │        │  └───▲────┬────┘  │             │           │       │  │      │            │            │     │     │       │        │      │    │       │             │           │       │  │      │            │            │  RE │     │AR     │        │   RE │    │ AR    │             │           │       │  │   ┌──▼────────┐   │            │ ┌───┴─────▼─────┐ │        │  ┌───┴────▼─────┐ │             │   ┌───────┴───┐   │  │   │ Attester  │   │            │ │  Attester     │ │        │  │  Attester    │ │             │   │ Attester  │   │  │   │           ├───┼────────────┤►│  Vendor A     ├─┼────────┼─►│  Vendor B    ├─┼─────────────┼──►│           │   │  │   └───────────┘   │  Update PE │ └───────────────┘ │        │  └──────────────┘ │  Update PE  │   └───────────┘   │  │                   │    with    │                   │        │                   │    with     │                   │  │                   │  AR/RE/PoT │  Operator 1       │        │   Operator 2      │  AR/RE/PoT  │                   │  └───────────────────┘            └───────────────────┘        └───────────────────┘             └───────────────────┘
+
+   Figure 2.  NASR Architecture
+
+   In a more generalized scenario, due to geographic distances, a single
+   operator cannot span across a long distance to deliver an end-to-end
+   service-- multiple operators collaborate to deliver it.  The Customer
+   A would send the Path Request to the Operator nearest to him
+   (Operator 1).  Operator 1 pass down the Path Request to the
+   collaborating operators, through an intra-ISP API.  Operators of
+   different domains choose qualifying devices to altogether orchestrate
+   the path.
+
+   Relying Party (customer) then sends the Path Evidence inquiry to
+   check and attest to this path.  Following the same procedure, the
+   client of other side would return the Path Attestation Result back,
+   through the operators.  The Operator 1 would send back a
+   comprehensive answer/report to the Client.
+
+   Also, the operators may have heterogeneous network devices from
+   different vendors.  Since vendors provide Verifier software/hardware
+   and Reference Values, Verifiers can be deployed either outside the
+   operators (Fig 2) or inside of the operators (Fig 3).
+
+                       ┌────────────────────────────────────────────────────────────────┐
+                       │                                                                │
+                       │       ┌────────────┐                 ┌────────────┐            │
+                       │       │ Verifier   │                 │ Verifier   │            │
+                       │       │ Owner      │                 │ Owner      │    ...     │
+                       │       │ Vendor A   │                 │ Vendor B   │            │
+                       │       └───────┬────┘                 └──────┬─────┘   Vendors  │
+                       │               │                             │                  │
+                       └───────────────┼─────────────────────────────┼──────────────────┘
+                                       │  Verifier software/hardware │
+                                       │  Reference Value            │  ┌───────────────────┐            ┌────────┼──────────┐        ┌─────────┼─────────┐             ┌───────────────────┐  │                   │            │        │          │        │         │         │             │                   │  │                   │            │  ┌─────▼──────┐   │        │   ┌─────▼──────┐  │             │                   │  │    Client  A      │            │  │ Verifier   │   │        │   │ Verifier   │  │             │    Client  B      │  │                   │  Path      │  │ from       │   │        │   │ from       │  │ Path        │                   │  │  ┌──────────────┐ │  Request   │  │ Vendor A   │   │        │   │ Vendor B   │  │ Attestation │   ┌────────────┐  │  │  │  Relying     ├─┼──────────┐ │  └──┬─────┬───┘   │        │   └──┬────┬────┘  │ Result (PAR)│   │  Relying   │  │  │  │  Party       │ │          │ │     │     │       │        │      │    │       │     ┌───────┼───┤  Party     │  │  │  └───┬──────────┘◄├────────┐ │ │     │     │       │  Intra │      │    │       │     │       │   └────────────┘  │  │      │            │        │ │ │  RE │     │AR     │  ISP   │   RE │    │ AR    │     │       │           ▲       │  │      │            │        │ └─► ┌───┴─────▼─────┐ │  API   │  ┌───┴────▼────┐  │     │       │           │       │  │      │Path        │ Report │   │ │ Orchestrator  ├─┼────────┼─►│ Orchestrator│◄─┼─────┘       │           │       │  │      │Evidence    │        └───┤ └───▲─────┬─────┘ │        │  └───▲────┬────┘  │             │           │       │  │      │            │            │     │     │       │        │      │    │       │             │           │       │  │      │            │            │  RE │     │AR     │        │   RE │    │ AR    │             │           │       │  │   ┌──▼────────┐   │            │ ┌───┴─────▼─────┐ │        │  ┌───┴────▼─────┐ │             │   ┌───────┴───┐   │  │   │ Attester  │   │            │ │  Attester     │ │        │  │  Attester    │ │             │   │ Attester  │   │  │   │           ├───┼────────────┼─┤  Vendor A     ├─┼────────┼─►│  Vendor B    ├─┼─────────────┼──►│           │   │  │   └───────────┘   │  Update PE │ └───────────────┘ │        │  └──────────────┘ │  Update PE  │   └───────────┘   │  │                   │    with    │                   │        │                   │    with     │                   │  │                   │  AR/RE/PoT │  Operator 1       │        │   Operator 2      │  AR/RE/PoT  │                   │  └───────────────────┘            └───────────────────┘        └───────────────────┘             └───────────────────┘
+
+   Figure 3.  Verifier deployed in operators
+
+5.  Roles
+
+   The existing roles from RATS Architecture document [RFC9344] applies.
+
+   Attester: The definition in [RFC9344] applies.  Additionally, it can
+   be performed by either a physical device or a virtual function.  The
+   Attester can update Path Evidence with his Attestation Result/Raw
+   Evidence/Proof of Transit.
+
+   Produces: (updated) Path Evidence
+
+   Relying Party: The definition in [RFC9344] applies.  Additionally, it
+   creates Path Request to the Orchestrator, and receive Reports from
+   Orchestrator as an auditable result, comparing the actually received
+   network service versus the requested PR attributes.
+
+   Produces: Path Request
+
+   Consumes: Report
+
+   In the case where an Attester is deployed in the customer premises,
+   the Relying Party could also start the unfilled Path Evidence inquiry
+   at his side.
+
+   New role(s) are defined below.
+
+   Orchestrator: A role performed by an entity (typically a controller
+   or a special device) that performs two functions: path orchestration
+   and path attestation.  The input and output of different functions
+   are different.
+
+   *  Path Orchestration: The Orchestrator receives a Path Request from
+      the Relying Party.  After path computation/orchestration, he
+      creates configurations to be distributed to the Attesters/devices.
+
+      Consumes: Path Request
+
+      Produces: Configurations
+
+   *  Path Attestation: The Orchestrator receives a Path Request from
+      the Relying Party, send unfilled Path Evidence (PE) inquiry to
+      Attesters, collects Path Attestation Result (PAR) from the
+      Verifier, and send PAR back to the Relying Party.
+
+      Consumes: Path Request, Path Attestation Result
+
+      Produces: (unfilled) Path Evidence
+
+   Verifier: A role performed by an entity that appraises the validity
+   of filled Path Evidence about a set of Attesters and produces Path
+   Attestation Results to be used by an Orchestrator.
+
+   Consumes: (filled) Path Evidence
+
+   Produces: Path Attestation Results
+
+6.  Conceptual Messages
+
+   The existing artifacts from RATS Architecture document [RFC9344]
+   applies.  New conceptual message(s) are defined here.
+
+   Path Request: A set of claims, describing the properties of a network
+   path that a Relying Party requested.
+
+   Consumed By: Orchestrator
+
+   Produced By: Relying Party
+
+   Path Attestation Result: The output generated by a Verifier,
+   including information about a set of Attesters, where the Verifier
+   vouches for the validity of the results.
+
+   Consumed By: Relying Party
+
+   Produced By: Verifier
+
+   Path Evidence: The output generated by the Orchestrator and a set of
+   Attesters, to be appraised by a Verifier.  Path Evidence may include
+   each Attester's raw Evidence [RFC9344], Attestation Results, Proof-
+   of-Transit, or other proof suggesting correctness of functioning of
+   each Attester.
+
+   Consumed By: Verifier
+
+   Created By: Orchestrator
+
+   Updated By: Attester(s)
+
+   Report: An auditable result that compares the actually received
+   network service versus the requested PR attributes.
+
+   Created By: Orchestrator
+
+   Consumed By: Relying Party
+
+7.  Orchestration
+
+   The orchestration process collects client's path requests and output
+   configurations.  The Orchestrator/Controller then distribute them to
+   the attester/device using NETCONF/YANG or other control plane
+   protocols.  In the first case, a new YANG module needs to be defined.
+
+           +------------------------+
+           |                        | Path Request   |Orchestrator/Controller | -------------->|                        |
+           +----------+-------------+
+                      |
+                      |Path and Security Configuration
+                      |(YANG/NETCONF)
+                      |
+                +-----v------------+
+                | Attester/Device  |
+                +------------------+
+
+8.  Security Considerations
+
+   TODO Security
+
+9.  IANA Considerations
+
+   This document has no IANA actions.
+
+10.  Informative References
+
+   [RFC9344]  Asaeda, H., Ooka, A., and X. Shao, "CCNinfo: Discovering
+              Content and Network Information in Content-Centric
+              Networks", RFC 9344, DOI 10.17487/RFC9344, February 2023,
+              <https://www.rfc-editor.org/rfc/rfc9344>.
+
+   [I-D.liu-nasr-requirements-01]
+              Liu, P. C., Iannone, L., Lopez, D., Pastor, A., Chen, M.,
+              and L. Su, "NASR Use Case and Requirements", Work in
+              Progress, Internet-Draft, draft-liu-nasr-requirements-01,
+              3 March 2024, <https://datatracker.ietf.org/doc/html/
+              draft-liu-nasr-requirements-01>.
+
+   [I-D.richardson-nasr-terminology-01]
+              Richardson, M. and P. C. Liu, "Terminology and Use cases
+              for Secured Routing Infrastructure", Work in Progress,
+              Internet-Draft, draft-richardson-nasr-terminology-01, 20
+              May 2024, <https://datatracker.ietf.org/doc/html/draft-
+              richardson-nasr-terminology-01>.
+
+   [I-D.ietf-rats-ar4si-06]
+              Voit, E., Birkholz, H., Hardjono, T., Fossati, T., and V.
+              Scarlata, "Attestation Results for Secure Interactions",
+              Work in Progress, Internet-Draft, draft-ietf-rats-ar4si-
+              06, 4 March 2024, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-rats-ar4si-06>.
+
+   [I-D.ietf-rats-corim-04]
+              Birkholz, H., Fossati, T., Deshpande, Y., Smith, N., and
+              W. Pan, "Concise Reference Integrity Manifest", Work in
+              Progress, Internet-Draft, draft-ietf-rats-corim-04, 4
+              March 2024, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-rats-corim-04>.
+
+Acknowledgments
+
+   We sincerely thank contribution from NASR mailing list.
+
+Authors' Addresses
+
+   Chunchi Liu
+   Huawei
+   Email: liuchunchi@huawei.com
+
+
+   Meiling Chen
+   China Mobile
+   Email: chenmeiling@chinamobile.com
+
+
+   Michael Richardson
+   Sandelman Software Works
+   Email: mcr@sandelman.ca
+
+
+   Diego Lopez
+   Telefonica
+   Email: diego.r.lopez@telefonica.com
