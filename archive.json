@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-07-04T01:23:59.332668+00:00",
+  "timestamp": "2024-07-07T01:36:52.735126+00:00",
   "repo": "liuchunchi/nasr-architecture",
   "labels": [
     {
@@ -399,24 +399,26 @@
       "id": "PR_kwDOMG72Xc50S4L8",
       "title": "Liu add background and goal",
       "url": "https://github.com/liuchunchi/nasr-architecture/pull/6",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "liuchunchi",
       "authorAssociation": "OWNER",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2024-07-03T08:40:17Z",
-      "updatedAt": "2024-07-03T09:01:35Z",
+      "updatedAt": "2024-07-04T07:47:51Z",
       "baseRepository": "liuchunchi/nasr-architecture",
       "baseRefName": "main",
       "baseRefOid": "8ba3f88b715228014e54df47de829ac9782a3717",
       "headRepository": "liuchunchi/nasr-architecture",
       "headRefName": "liu-add-background-and-goal",
       "headRefOid": "915440a649f184b6e7e76057a5f9807699a26462",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-07-04T07:47:51Z",
+      "mergedAt": "2024-07-04T07:47:51Z",
+      "mergedBy": "liuchunchi",
+      "mergeCommit": {
+        "oid": "9824f98f6394af13c589025e8fb1bc40de99d0e1"
+      },
       "comments": [],
       "reviews": []
     }
