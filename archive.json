@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-07-07T01:36:52.735126+00:00",
+  "timestamp": "2024-07-09T01:25:24.494838+00:00",
   "repo": "liuchunchi/nasr-architecture",
   "labels": [
     {
@@ -49,7 +49,32 @@
       "color": "ffffff"
     }
   ],
-  "issues": [],
+  "issues": [
+    {
+      "number": 7,
+      "id": "I_kwDOMG72Xc6OsU6A",
+      "title": "Diagram too long for proper display",
+      "url": "https://github.com/liuchunchi/nasr-architecture/issues/7",
+      "state": "CLOSED",
+      "author": "liuchunchi",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "The diagram are too wide to display properly. Any ideas? ",
+      "createdAt": "2024-07-07T10:08:03Z",
+      "updatedAt": "2024-07-07T11:12:27Z",
+      "closedAt": "2024-07-07T11:12:26Z",
+      "comments": [
+        {
+          "author": "liuchunchi",
+          "authorAssociation": "OWNER",
+          "body": "resolved by adding \r\n\r\n~~~~\r\nfig\r\n~~~~",
+          "createdAt": "2024-07-07T11:12:26Z",
+          "updatedAt": "2024-07-07T11:12:26Z"
+        }
+      ]
+    }
+  ],
   "pulls": [
     {
       "number": 1,
