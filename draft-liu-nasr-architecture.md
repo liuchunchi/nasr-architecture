@@ -80,34 +80,32 @@ NASR will leverage RATS implementations and specifications, including but not li
 # Architectural Overview
 
 ## Single client - single operator (An Oversimplification)
-
-    +--------------------+
-    |                    |
-    |    Relying Party   |
-    |                    |
-    |                    |
-    +----+---------^-----+
-  Path   |         |
-  Request|         | Report
-         |         |
-    +----v---------+-----+                                    +--------------------+
-    |                    |     Path Attestation Result (PAR)  |                    |
-    |    Orchestrator    |                                    |      Verifier      |
-    |                    <------------------------------------+                    |
-    |                    |                                    |                    |
-    +----+---------------+                                    +----------^---------+
-         |                                                               |
-Path     |                                                               |  Path
-Evidence |                                                               |  Evidence
-(PE)     |                                                               |  (PE)
-    +----v---------------+       +--------------------+       +----------+---------+
-    |                    |       |                    |       |                    |
-    |      Attester      +------->     Attester...    +------->      Attester      |
-    |                    |       |                    |       |                    |
-    +--------------------+       +--------------------+       +--------------------+
-                      Update PE with                Update PE with
-                        AR/RE/PoT                     AR/RE/PoT
-
+~~~
+     +---------------+                                           
+     |               |                                           
+     | Relying Party |                                           
+     |               |                                           
+     +-+---------^---+                                           
+Path   |         |                                               
+Request|         | Report                                        
+       |         |                                               
+     +-v---------+--+                          +-----------+     
+     |              |      Path Attestation    |           |     
+     | Orchestrator |       Result (PAR)       | Verifier  |     
+     |              <--------------------------+           |     
+     +-+------------+                          +------^----+     
+       |                                              |          
+       | Path                                         |  Path    
+       | Evidence                                     |  Evidence
+       | (PE)                                         |  (PE)    
+     +-v------------+      +-------------+     +------+----+     
+     |              |      |             |     |           |     
+     |   Attester   +------>  Attester...+-----> Attester  |     
+     |              |      |             |     |           |     
+     +--------------+      +-------------+     +-----------+     
+                   Update with         Update with               
+                    AR/RE/PoT           AR/RE/PoT                
+~~~
 Figure 1. NASR Architecture-- Oversimplified
 
 Fig. 1 is an oversimplification to ease understanding of the concept. In a single client - single operator scenario, a client (Relying Party) sends a Path Request containing his security or trustworthiness requirements of a leased line. The Orchestrator, run by the operator, would choose qualifying devices (Attesters) and send out an empty Path Evidence inquiry. The Attesters update the Path Evidence with its own Raw Evidence or Attestation Results one-by-one. The Verifier verifies the filled Path Evidence, produce a Path Attestation Result (PAR), and sends it back to the Relying Party. The Relying Party now have confidence over the trustworthiness of received network. After the end-to-end service is delivered, during service, Proof-of-Transits are also created by each Attester, being sent in-band accumulatively or out-of-band, to detect unexpected routing deviation.
