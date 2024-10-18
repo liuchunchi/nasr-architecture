@@ -7,7 +7,7 @@ lang: en
 
 title: Network Attestation for Secure Routing (NASR) Architecture
 abbrev: NASR-Architecture
-docname: draft-liu-nasr-architecture-00
+docname: draft-liu-nasr-architecture-latest
 
 area: SEC
 workgroup: NASR
@@ -81,30 +81,30 @@ NASR will leverage RATS implementations and specifications, including but not li
 
 ## Single client - single operator (An Oversimplification)
 ~~~
-     +---------------+                                           
-     |               |                                           
-     | Relying Party |                                           
-     |               |                                           
-     +-+---------^---+                                           
-Path   |         |                                               
-Request|         | Report                                        
-       |         |                                               
-     +-v---------+--+                          +-----------+     
-     |              |      Path Attestation    |           |     
-     | Orchestrator |       Result (PAR)       | Verifier  |     
-     |              <--------------------------+           |     
-     +-+------------+                          +------^----+     
-       |                                              |          
-       | Path                                         |  Path    
+     +---------------+
+     |               |
+     | Relying Party |
+     |               |
+     +-+---------^---+
+Path   |         |
+Request|         | Report
+       |         |
+     +-v---------+--+                          +-----------+
+     |              |      Path Attestation    |           |
+     | Orchestrator |       Result (PAR)       | Verifier  |
+     |              <--------------------------+           |
+     +-+------------+                          +------^----+
+       |                                              |
+       | Path                                         |  Path
        | Evidence                                     |  Evidence
-       | (PE)                                         |  (PE)    
-     +-v------------+      +-------------+     +------+----+     
-     |              |      |             |     |           |     
-     |   Attester   +------>  Attester...+-----> Attester  |     
-     |              |      |             |     |           |     
-     +--------------+      +-------------+     +-----------+     
-                   Update with         Update with               
-                    AR/RE/PoT           AR/RE/PoT                
+       | (PE)                                         |  (PE)
+     +-v------------+      +-------------+     +------+----+
+     |              |      |             |     |           |
+     |   Attester   +------>  Attester...+-----> Attester  |
+     |              |      |             |     |           |
+     +--------------+      +-------------+     +-----------+
+                   Update with         Update with
+                    AR/RE/PoT           AR/RE/PoT
 ~~~
 Figure 1. NASR Architecture-- Oversimplified
 
@@ -115,7 +115,6 @@ This process is repeated periodically to continuously assure compliance.
 
 ## Multi Client - Multi Operator
 ~~~
-
 +---------------------------------------------------------------+
 |                +------------+   +------------+                |
 |                | Verifier   |   | Verifier   |        ...     |
@@ -142,7 +141,6 @@ This process is repeated periodically to continuously assure compliance.
 |          |Evid. | Operator |Evid.| Operator |Evid. |          |
 |          |      | 1        |     | 2        |      |          |
 +----------+      +----------+     +----------+      +----------+
-
 ~~~
 Figure 2. NASR Architecture
 
@@ -153,38 +151,37 @@ Relying Party (customer) then sends the Path Evidence inquiry to check and attes
 Also, the operators may have heterogeneous network devices from different vendors. Since vendors provide Verifier software/hardware and Reference Values, Verifiers can be deployed either outside the operators (Fig 2) or inside of the operators (Fig 3).
 
 ~~~
-+---------------------------------------------------------------+      
-|             +----------------+  +----------------+            |      
-|             | Verifier Owner |  | Verifier Owner |    ...     |      
-|             | Vendor A       |  | Vendor B       |   Vendors  |      
-|             +-------+--------+  +------+---------+            |      
-+---------------------+------------------+----------------------+      
-                      |Verifier Software/|                             
-                      | Hardware         |                             
-                      |Reference Value   |                             
-                  +---+------+     +-----+----+                        
-                  |+--v-----+|     |+----v---+|                        
-+----------+      ||Verifier||     ||Verifier||      +----------+      
-|          |      ||Vendor A||     ||Vendor B||      |          |      
-| Client A |      |+--^--+--+|     |+--^--+--+|      | Client B |      
-|          |      |   |  |   |Intra|   |  |   |Path  |          |      
-|          | Path | RE|  |AR |ISP  | RE|  |AR |Att.  |          |      
-|+-------+ | Req. |+--+--v--+|API  |+--+--v--+|Result|+-------+ |      
-||Relying+-+------>|Orchest ++----->|Orchest ||(PAR) ||Relying| |      
-||Party  <-+------++trator  ||     ||trator  |<------++Party  | |      
-|+-+-----+ |Answer|+--^--+--+|     |+--^--+--+|      |+-----^-+ |      
-|  |       |Report|   |  |   |     |   |  |   |      |      |   |      
-|  |Path   |      | RE|  |AR |     | RE|  |AR |      | Path |   |      
-|  |Evid-  |      |   |  |   |     |   |  |   |      | Evid-|   |      
-|  |ence   |      |+--+--v--+|     |+--+--v--+|      | ence |   |      
-|+-v------+|      ||Attester||     ||Attester||      |+-----+--+|      
-||Attester++------>|Vendor B++----->|Vendor B++------>|Attester||      
-|+--------+|Update|+--------+|Update --------+|Update|+--------+|      
-|          |Path  |          |Path |          |Path  |          |      
-|          |Evid. | Operator |Evid.| Operator |Evid. |          |      
-|          |      | 1        |     | 2        |      |          |      
-+----------+      +----------+     +----------+      +----------+      
-
++---------------------------------------------------------------+
+|             +----------------+  +----------------+            |
+|             | Verifier Owner |  | Verifier Owner |    ...     |
+|             | Vendor A       |  | Vendor B       |   Vendors  |
+|             +-------+--------+  +------+---------+            |
++---------------------+------------------+----------------------+
+                      |Verifier Software/|
+                      | Hardware         |
+                      |Reference Value   |
+                  +---+------+     +-----+----+
+                  |+--v-----+|     |+----v---+|
++----------+      ||Verifier||     ||Verifier||      +----------+
+|          |      ||Vendor A||     ||Vendor B||      |          |
+| Client A |      |+--^--+--+|     |+--^--+--+|      | Client B |
+|          |      |   |  |   |Intra|   |  |   |Path  |          |
+|          | Path | RE|  |AR |ISP  | RE|  |AR |Att.  |          |
+|+-------+ | Req. |+--+--v--+|API  |+--+--v--+|Result|+-------+ |
+||Relying+-+------>|Orchest ++----->|Orchest ||(PAR) ||Relying| |
+||Party  <-+------++trator  ||     ||trator  |<------++Party  | |
+|+-+-----+ |Answer|+--^--+--+|     |+--^--+--+|      |+-----^-+ |
+|  |       |Report|   |  |   |     |   |  |   |      |      |   |
+|  |Path   |      | RE|  |AR |     | RE|  |AR |      | Path |   |
+|  |Evid-  |      |   |  |   |     |   |  |   |      | Evid-|   |
+|  |ence   |      |+--+--v--+|     |+--+--v--+|      | ence |   |
+|+-v------+|      ||Attester||     ||Attester||      |+-----+--+|
+||Attester++------>|Vendor B++----->|Vendor B++------>|Attester||
+|+--------+|Update|+--------+|Update --------+|Update|+--------+|
+|          |Path  |          |Path |          |Path  |          |
+|          |Evid. | Operator |Evid.| Operator |Evid. |          |
+|          |      | 1        |     | 2        |      |          |
++----------+      +----------+     +----------+      +----------+
 ~~~
 Figure 3. Verifier deployed in operators
 
