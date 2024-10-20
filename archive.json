@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-17T01:44:31.554003+00:00",
+  "timestamp": "2024-10-20T01:52:10.018325+00:00",
   "repo": "liuchunchi/nasr-architecture",
   "labels": [
     {
@@ -446,6 +446,46 @@
       },
       "comments": [],
       "reviews": []
+    },
+    {
+      "number": 8,
+      "id": "PR_kwDOMG72Xc5_FK2D",
+      "title": "fix overlong diagrams",
+      "url": "https://github.com/liuchunchi/nasr-architecture/pull/8",
+      "state": "OPEN",
+      "author": "liuchunchi",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-10-18T09:52:07Z",
+      "updatedAt": "2024-10-18T17:59:38Z",
+      "baseRepository": "liuchunchi/nasr-architecture",
+      "baseRefName": "main",
+      "baseRefOid": "c2488d71012528c113a129540d978bc6d5a333c7",
+      "headRepository": "liuchunchi/nasr-architecture",
+      "headRefName": "liuchunchi-patch-1",
+      "headRefOid": "db2d16f29391eda04b3f32c1a1f46b3605ec458e",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOMG72Xc6Nx-Xs",
+          "commit": {
+            "abbreviatedOid": "db2d16f"
+          },
+          "author": "mcr",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "The big diagram at line 119, etc. doesn't work compressed.\r\nI suggest rotating it 90 degrees... go top-down rather than left/right.\r\n",
+          "createdAt": "2024-10-18T17:59:38Z",
+          "updatedAt": "2024-10-18T17:59:38Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
