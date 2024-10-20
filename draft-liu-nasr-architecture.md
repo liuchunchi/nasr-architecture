@@ -115,32 +115,51 @@ This process is repeated periodically to continuously assure compliance.
 
 ## Multi Client - Multi Operator
 ~~~
-+---------------------------------------------------------------+
-|                +------------+   +------------+                |
-|                | Verifier   |   | Verifier   |        ...     |
-|                | Vendor A   |   | Vendor B   |       Vendors  |
-|                +----^--+----+   +----^--+----+                |
-+---------------------+--+-------------+--+---------------------+
-+----------+          |  |             |  |          +----------+
-|          |      +---+--+---+     +---+--+---+      |          |
-| Client A |      |   |  |   |     |   |  |   |      | Client B |
-|          |      |   |  |   |Intra|   |  |   |Path  |          |
-|          | Path | RE|  |AR |ISP  | RE|  |AR |Att.  |          |
-|+-------+ | Req. |+--+--v--+|API  |+--+--v--+|Result|+-------+ |
-||Relying+-+------>|Orchest ++----->|Orchest ||(PAR) ||Relying| |
-||Party  <-+------++trator  ||     ||trator  |<------++Party  | |
-|+-+-----+ |Answer|+--^--+--+|     |+--^--+--+|      |+-----^-+ |
-|  |       |Report|   |  |   |     |   |  |   |      |      |   |
-|  |Path   |      | RE|  |AR |     | RE|  |AR |      | Path |   |
-|  |Evid-  |      |   |  |   |     |   |  |   |      | Evid-|   |
-|  |ence   |      |+--+--v--+|     |+--+--v--+|      | ence |   |
-|+-v------+|      ||Attester||     ||Attester||      |+-----+--+|
-||Attester++------>|Vendor B++----->|Vendor B++------>|Attester||
-|+--------+|Update|+--------+|Update --------+|Update|+--------+|
-|          |Path  |          |Path |          |Path  |          |
-|          |Evid. | Operator |Evid.| Operator |Evid. |          |
-|          |      | 1        |     | 2        |      |          |
-+----------+      +----------+     +----------+      +----------+
++------------------------------------+
+|                                    |
+| Client X                           |
+|             Path    +-----------+  |
+| +----------+Evidence| Relying   |  |
+| | Attester |<-------+ Party     |  |
+| +--+-------+        +---^--+----+  |
++----+--------------------+--+-------+          +-------------+
+     | Update       Answer|  | Path             |             |
+     | Path         Report|  | Request          |             |
+     | Evidence           |  |                  |  Vendors    |
++----+--------------------+--+-----------+      |             |
+|    |                    |  |           |      |             |
+|    |                    |  | Operator 1|      |             |
+|    |                    |  |           |      |             |
+| +--v--------+  RE   +---+--v--------+  |  RE  |+-----------+|
+| |           +------->               +--+------>| Verifier  ||
+| | Attester  |       | Orchestrator  |  |      || Vendor A  ||
+| | Vendor A  <-------+               <--+------++           ||
+| +--+--------+  AR   +------+--------+  |  AR  |+-----------+|
++----+-----------------------+-----------+      |             |
+     | Update                | Intra            |             |
+     | Path                  | ISP              |             |
+     | Evidence              | API              |             |
++----+-----------------------+-----------+      |             |
+|    |                       |           |      |             |
+|    |                       | Operator 2|      |             |
+|    |                       |           |      |             |
+| +--v--------+  RE   +------v--------+  |  RE  |+-----------+|
+| |           +------->               +--+------>| Verifier  ||
+| | Attester  |       | Orchestrator  |  |      || Vendor B  ||
+| | Vendor B  <-------+               <--+------++           ||
+| +--+--------+  AR   +---^-----------+  |  AR  |+-----------+|
++----+--------------------+--------------+      |             |
+     | Update             |   Path              |             |
+     | Path               |   Attestation       |  ...        |
+     | Evidence           |   Result (PAR)      |             |
++----+--------------------+----------+          |             |
+|    |        Path        |          |          +-------------+
+| +--v-------+Evidence+---+-------+  |
+| | Attester +--------> Relying   |  |
+| +----------+        | Party     |  |
+|                     +-----------+  |
+|  Client Y                          |
++------------------------------------+
 ~~~
 Figure 2. NASR Architecture
 
@@ -151,37 +170,51 @@ Relying Party (customer) then sends the Path Evidence inquiry to check and attes
 Also, the operators may have heterogeneous network devices from different vendors. Since vendors provide Verifier software/hardware and Reference Values, Verifiers can be deployed either outside the operators (Fig 2) or inside of the operators (Fig 3).
 
 ~~~
-+---------------------------------------------------------------+
-|             +----------------+  +----------------+            |
-|             | Verifier Owner |  | Verifier Owner |    ...     |
-|             | Vendor A       |  | Vendor B       |   Vendors  |
-|             +-------+--------+  +------+---------+            |
-+---------------------+------------------+----------------------+
-                      |Verifier Software/|
-                      | Hardware         |
-                      |Reference Value   |
-                  +---+------+     +-----+----+
-                  |+--v-----+|     |+----v---+|
-+----------+      ||Verifier||     ||Verifier||      +----------+
-|          |      ||Vendor A||     ||Vendor B||      |          |
-| Client A |      |+--^--+--+|     |+--^--+--+|      | Client B |
-|          |      |   |  |   |Intra|   |  |   |Path  |          |
-|          | Path | RE|  |AR |ISP  | RE|  |AR |Att.  |          |
-|+-------+ | Req. |+--+--v--+|API  |+--+--v--+|Result|+-------+ |
-||Relying+-+------>|Orchest ++----->|Orchest ||(PAR) ||Relying| |
-||Party  <-+------++trator  ||     ||trator  |<------++Party  | |
-|+-+-----+ |Answer|+--^--+--+|     |+--^--+--+|      |+-----^-+ |
-|  |       |Report|   |  |   |     |   |  |   |      |      |   |
-|  |Path   |      | RE|  |AR |     | RE|  |AR |      | Path |   |
-|  |Evid-  |      |   |  |   |     |   |  |   |      | Evid-|   |
-|  |ence   |      |+--+--v--+|     |+--+--v--+|      | ence |   |
-|+-v------+|      ||Attester||     ||Attester||      |+-----+--+|
-||Attester++------>|Vendor B++----->|Vendor B++------>|Attester||
-|+--------+|Update|+--------+|Update --------+|Update|+--------+|
-|          |Path  |          |Path |          |Path  |          |
-|          |Evid. | Operator |Evid.| Operator |Evid. |          |
-|          |      | 1        |     | 2        |      |          |
-+----------+      +----------+     +----------+      +----------+
++---------------------------------+
+|                                 |
+| Client X                        |
+|             Path +-----------+  |
+| +----------+Evid.| Relying   |  |
+| | Attester |<----+ Party     |  |
+| +--+-------+     +---^--+----+  |
++----+-----------------+--+-------+
+     | Update    Answer|  | Path
+     | Path      Report|  | Request               +-------------+
+     | Evidence        |  |                       |  Vendors    |
++----+-----------------+--+-------------------+   |             |
+|    |                 |  |                   |   |             |
+|    |                 |  |   Operator 1      |   |             |
+|    |                 |  |        +--------+ |   |             |
+| +--v--------+ RE +---+--v---+ RE |Verifier| |   |+-----------+|
+| |           +---->          +----> of     | |   || Verifier  ||
+| | Attester  |    | Orches-  |    |Vendor  <-+---++ Owner     ||
+| | Vendor A  <----+  trator  <----| A      | |   || Vendor A  ||
+| +--+--------+ AR +------+---+ AR +--------+ |   |+-----------+|
++----+--------------------+-------------------+   |             |
+     | Update             | Intra         Verifier              |
+     | Path               | ISP           Software/Hardware     |
+     | Evidence           | API           Reference Value       |
++----+--------------------+-------------------+   |             |
+|    |                    |                   |   |             |
+|    |                    |   Operator 2      |   |             |
+|    |                    |        +--------+ |   |             |
+| +--v--------+ RE +------v---+ RE |Verifier| |   |+-----------+|
+| |           +---->          +----> of     | |   || Verifier  ||
+| | Attester  |    | Orches-  |    |Vendor  <-+---++ Owner     ||
+| | Vendor B  <----+  trator  <----| B      | |   || Vendor B  ||
+| +--+--------+ AR +---^------+ AR +--------+ |   |+-----------+|
++----+-----------------+----------------------+   |             |
+     | Update          |  Path                    | ...         |
+     | Path            |  Attestation             +-------------+
+     | Evidence        |  Result (PAR)
++----+-----------------+----------+
+|    |        Path     |          |
+| +--v-------+Evid.+---+-------+  |
+| | Attester +-----> Relying   |  |
+| +----------+     | Party     |  |
+|                  +-----------+  |
+|  Client Y                       |
++---------------------------------+
 ~~~
 Figure 3. Verifier deployed in operators
 
