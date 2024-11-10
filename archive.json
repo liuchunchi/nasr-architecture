@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-11-07T01:42:43.780437+00:00",
+  "timestamp": "2024-11-10T01:48:06.105948+00:00",
   "repo": "liuchunchi/nasr-architecture",
   "labels": [
     {
@@ -73,6 +73,22 @@
           "updatedAt": "2024-07-07T11:12:26Z"
         }
       ]
+    },
+    {
+      "number": 9,
+      "id": "I_kwDOMG72Xc6dZlmL",
+      "title": "Privacy concerns",
+      "url": "https://github.com/liuchunchi/nasr-architecture/issues/9",
+      "state": "OPEN",
+      "author": "liuchunchi",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "I am dumping feedbacks collected from dublin\r\n\r\nNed mentioned about privacy implicaitons about information exposure from attestation, and we discussed methods to fix it. \r\n\r\n1. indisguishability from mass sizes of elements that has same/similar properties, such that no element with non-popular properties can be picked out and traced. \r\n- list out chooseable property list along with a privacy-safe index. this means more popular attributes are more privacy-safe\r\n2. indisguishability from cryptographic methods -- like hash based masks",
+      "createdAt": "2024-11-07T11:26:12Z",
+      "updatedAt": "2024-11-07T11:26:12Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
