@@ -5,12 +5,12 @@
 NASR                                                              C. Liu
 Internet-Draft                                                    Huawei
 Intended status: Informational                                   M. Chen
-Expires: 23 April 2025                                      China Mobile
+Expires: 14 July 2025                                       China Mobile
                                                            M. Richardson
                                                 Sandelman Software Works
                                                                 D. Lopez
                                                               Telefonica
-                                                         20 October 2024
+                                                         10 January 2025
 
 
        Network Attestation for Secure Routing (NASR) Architecture
@@ -36,11 +36,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 23 April 2025.
+   This Internet-Draft will expire on 14 July 2025.
 
 Copyright Notice
 
-   Copyright (c) 2024 IETF Trust and the persons identified as the
+   Copyright (c) 2025 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -154,8 +154,9 @@ Table of Contents
         |   Attester   +------>  Attester...+-----> Attester  |
         |              |      |             |     |           |
         +--------------+      +-------------+     +-----------+
-                      Update with         Update with
-                       AR/RE/PoT           AR/RE/PoT
+                      Update with          Update with
+                 individual evidence    individual evidence
+                     (AR/RE/PoT)           (AR/RE/PoT)
 
    Figure 1.  NASR Architecture-- Oversimplified
 
@@ -173,6 +174,43 @@ Table of Contents
    service, Proof-of-Transits are also created by each Attester, being
    sent in-band accumulatively or out-of-band, to detect unexpected
    routing deviation.
+
+   Alternatively, the Path Evidence can be collected through management
+   protocols like NETCONF/YANG.  The orchestrator aggregates individual
+   evidences of each attester device on the candidate path, then send
+   the Path Evidence to the Path Verifier, who then produces a Path
+   Attestation Result back to the Relying Party.  When the attester
+   devices are made by different vendors, multiple verifiers may be
+   needed.
+
+    +---------------+
+    |               |
+    | Relying Party |<------+
+    |               |       | Path Attestation
+    +---------------+       |  Result (PAR)
+                    +-------+--------+
+                    |                |
+                    | Path Verifer   |
+                    |                |
+                    +-------^--------+
+                            | Path Evidence (PE)
+                    +-------+--------+
+                    |                |
+                    | Orchestrator   |
+                    |                |
+                    +-----^-^-^------+
+           +--------------+ | +--------------+
+           |                |                |
+           | Individual     | Individual     | Individual
+           | Evidence 1     | Evidence 2     | Evidence 3
+           |                |                |
+     +-----+-----+    +-----|-----+    +-----+-----+
+     |           |    |           |    |           |
+   --+ Attester 1+----+ Attester 2+----+ Attester 3+---
+     |           |    |           |    |           |
+     +-----------+    +-----------+    +-----------+
+
+   Figure 1.1.  NASR Architecture-- Oversimplified
 
    This process is repeated periodically to continuously assure
    compliance.
