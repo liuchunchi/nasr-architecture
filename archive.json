@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-01-09T02:12:09.656230+00:00",
+  "timestamp": "2025-01-12T01:53:27.775234+00:00",
   "repo": "liuchunchi/nasr-architecture",
   "labels": [
     {
@@ -512,6 +512,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 10,
+      "id": "PR_kwDOMG72Xc6HTGj0",
+      "title": "Adding management protocol collection diagram",
+      "url": "https://github.com/liuchunchi/nasr-architecture/pull/10",
+      "state": "OPEN",
+      "author": "liuchunchi",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "So, the original Figure 1 represents collecting path evidence using east-west procotols like BGP-LS. \r\n\r\nThis PR adds Figure 1.1 which represents collecting path evidence using management plane protocols like NETCONF/YANG, when a controller is present. TPM-CHARRA can be reused.\r\n\r\nPersonally, this figure 1.1 is easier to understand and makes more sense to me.",
+      "createdAt": "2025-01-10T08:08:27Z",
+      "updatedAt": "2025-01-10T08:08:27Z",
+      "baseRepository": "liuchunchi/nasr-architecture",
+      "baseRefName": "main",
+      "baseRefOid": "9caf2517b191354d5a1531537736105886c31e10",
+      "headRepository": "liuchunchi/nasr-architecture",
+      "headRefName": "liuchunchi-patch-2",
+      "headRefOid": "39c11549c8f6047c810404d697899b077ea845ab",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
