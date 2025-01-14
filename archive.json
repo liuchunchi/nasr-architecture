@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-01-12T01:53:27.775234+00:00",
+  "timestamp": "2025-01-14T01:40:25.942347+00:00",
   "repo": "liuchunchi/nasr-architecture",
   "labels": [
     {
@@ -525,7 +525,7 @@
       "labels": [],
       "body": "So, the original Figure 1 represents collecting path evidence using east-west procotols like BGP-LS. \r\n\r\nThis PR adds Figure 1.1 which represents collecting path evidence using management plane protocols like NETCONF/YANG, when a controller is present. TPM-CHARRA can be reused.\r\n\r\nPersonally, this figure 1.1 is easier to understand and makes more sense to me.",
       "createdAt": "2025-01-10T08:08:27Z",
-      "updatedAt": "2025-01-10T08:08:27Z",
+      "updatedAt": "2025-01-13T07:42:53Z",
       "baseRepository": "liuchunchi/nasr-architecture",
       "baseRefName": "main",
       "baseRefOid": "9caf2517b191354d5a1531537736105886c31e10",
@@ -536,7 +536,43 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "Maisy-ML",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> So, the original Figure 1 represents collecting path evidence using east-west procotols like BGP-LS.\r\n> \r\n> This PR adds Figure 1.1 which represents collecting path evidence using management plane protocols like NETCONF/YANG, when a controller is present. TPM-CHARRA can be reused.\r\n> \r\n> Personally, this figure 1.1 is easier to understand and makes more sense to me.\r\n\r\nBGP-LS can be used for both north-south and east-west, in east-west case need new extension. NETCONF , can it only be used in the north-south? I'm not sure. \r\nDo we need to separately the collection before the path orchestration and the actual forwarding PoT result?",
+          "createdAt": "2025-01-13T02:46:32Z",
+          "updatedAt": "2025-01-13T02:46:32Z"
+        },
+        {
+          "author": "liuchunchi",
+          "authorAssociation": "OWNER",
+          "body": "> Do we need to separately the collection before the path orchestration and the actual forwarding PoT result?\r\n\r\nGreat question, my thinking is: you must need a setup phase for establishing the baseline, prior to actual use; both control plane (aggregated path attributes) and data plane (POT verification baseline)",
+          "createdAt": "2025-01-13T04:15:00Z",
+          "updatedAt": "2025-01-13T04:15:00Z"
+        },
+        {
+          "author": "Maisy-ML",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> > Do we need to separately the collection before the path orchestration and the actual forwarding PoT result?\r\n> \r\n> Great question, my thinking is: you must need a setup phase for establishing the baseline, prior to actual use; both control plane (aggregated path attributes) and data plane (POT verification baseline)\r\n\r\nThat's the problem, before establishing the baseline, do we need to collect security information for all nodes by default? ",
+          "createdAt": "2025-01-13T05:59:18Z",
+          "updatedAt": "2025-01-13T05:59:18Z"
+        },
+        {
+          "author": "liuchunchi",
+          "authorAssociation": "OWNER",
+          "body": "> That's the problem, before establishing the baseline, do we need to collect security information for all nodes by default?\r\n\r\nit is not by default. After the client sends a request through service model, this should be a structured, targeted query (YANG/BGP-LS). First in the orchestrator's centralized database, second through the aboveadded step. The returned result to the client is the output of the second step.",
+          "createdAt": "2025-01-13T06:13:50Z",
+          "updatedAt": "2025-01-13T06:13:50Z"
+        },
+        {
+          "author": "Maisy-ML",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> > That's the problem, before establishing the baseline, do we need to collect security information for all nodes by default?\r\n> \r\n> it is not by default. After the client sends a request through service model, this should be a structured, targeted query (YANG/BGP-LS). First in the orchestrator's centralized database, second through the aboveadded step. The returned result to the client is the output of the second step.\r\n\r\nSo the Client trigger the query, then the orchestrator produce one or several candidate paths, then though the above added step to generate baseline.",
+          "createdAt": "2025-01-13T07:42:52Z",
+          "updatedAt": "2025-01-13T07:42:52Z"
+        }
+      ],
       "reviews": []
     }
   ]
