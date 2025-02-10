@@ -103,15 +103,47 @@ Request|         | Report
      |   Attester   +------>  Attester...+-----> Attester  |
      |              |      |             |     |           |
      +--------------+      +-------------+     +-----------+
-                   Update with         Update with
-                    AR/RE/PoT           AR/RE/PoT
+                   Update with          Update with
+              individual evidence    individual evidence
+                  (AR/RE/PoT)           (AR/RE/PoT)
 ~~~
 Figure 1. NASR Architecture-- Oversimplified
 
 Fig. 1 is an oversimplification to ease understanding of the concept. In a single client - single operator scenario, a client (Relying Party) sends a Path Request containing his security or trustworthiness requirements of a leased line. The Orchestrator, run by the operator, would choose qualifying devices (Attesters) and send out an empty Path Evidence inquiry. The Attesters update the Path Evidence with its own Raw Evidence or Attestation Results one-by-one. The Verifier verifies the filled Path Evidence, produce a Path Attestation Result (PAR), and sends it back to the Relying Party. The Relying Party now have confidence over the trustworthiness of received network. After the end-to-end service is delivered, during service, Proof-of-Transits are also created by each Attester, being sent in-band accumulatively or out-of-band, to detect unexpected routing deviation.
 
-This process is repeated periodically to continuously assure compliance.
+Alternatively, the Path Evidence can be collected through management protocols like NETCONF/YANG. The orchestrator aggregates individual evidences of each attester device on the candidate path, then send the Path Evidence to the Path Verifier, who then produces a Path Attestation Result back to the Relying Party. When the attester devices are made by different vendors, multiple verifiers may be needed.
 
+~~~
+ +---------------+
+ |               |
+ | Relying Party |<------+
+ |               |       | Path Attestation
+ +---------------+       |  Result (PAR)
+                 +-------+--------+
+                 |                |
+                 | Path Verifer   |
+                 |                |
+                 +-------^--------+
+                         | Path Evidence (PE)
+                 +-------+--------+
+                 |                |
+                 | Orchestrator   |
+                 |                |
+                 +-----^-^-^------+
+        +--------------+ | +--------------+
+        |                |                |
+        | Individual     | Individual     | Individual
+        | Evidence 1     | Evidence 2     | Evidence 3
+        |                |                |
+  +-----+-----+    +-----|-----+    +-----+-----+
+  |           |    |           |    |           |
+--+ Attester 1+----+ Attester 2+----+ Attester 3+---
+  |           |    |           |    |           |
+  +-----------+    +-----------+    +-----------+
+~~~
+Figure 1.1. NASR Architecture-- Oversimplified
+
+This process is repeated periodically to continuously assure compliance.
 
 ## Multi Client - Multi Operator
 ~~~
