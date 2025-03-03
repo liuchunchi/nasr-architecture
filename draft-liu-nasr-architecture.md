@@ -5,7 +5,7 @@ submissionType: IETF
 ipr: trust200902
 lang: en
 
-title: Network Attestation for Secure Routing (NASR) Architecture
+title: Network Attestation for Secured foRwarding (NASR) Architecture
 abbrev: NASR-Architecture
 docname: draft-liu-nasr-architecture-latest
 
@@ -15,7 +15,7 @@ type: BOF
 
 kw:
  - NASR
- - Secure Routing
+ - Secured Forwarding
 
 author:
  -
@@ -54,18 +54,26 @@ This document provides an architecture overview of NASR entities, interactive pr
 
 # Introduction
 
-Endpoints typically perceives no information of the properties of the paths over which their traffic is carried, especially when the properties are security-related. Therefore, data security (confidentiality, integrity and authenticity) has been insofar primarily protected by traffic signing and encryption mechanisms. Endpoint cannot choose devices with specific properties to bear transmission.
+In the current network deployments, communicating entities implicitly rely on peer entities and use paths as determined by the control plane. These available path(s) are implicitly trusted. Communicating entities have very little information about the entities in the paths over which their traffic is carried, and have no available means to audit the entities and paths, beyond basic properties like latency, throughput, and congestion. However, increased demand in network security, privacy, and robustness makes tools for enabling visibility of the entities' security characteristics a necessity.
 
-However, clients with high security and privacy requirements are not anymore satisfied with traffic signing and encryption mechanisms only; they now request information of the trustworthiness or security properties of the network paths over which the traffic is carried, preferably to choose the desired properties. For example, some clients may require their data to traverse through trusted devices and trusted links only, in order to avoid data being exposed to insecure devices, causing leakage.
+Path-agnostic traffic signing and encryption has been the primary method to ensure data confidentiality, integrity and authenticity today. However, with the increasing amount of attacks, and vulnerabilities, new emerging threats are imposing requirements that go beyond the data security currently provided. Vulnerable factors include:
 
-Remote Attestation Procedures (RATS) working group developed procedures to establish a level of confidence in the trustworthiness of a device or a system. RATS provide 1. objective, appraisable evidence of a device’s trust or security properties, and 2. verifiable integrity proof to the evidence (Attestation Result). Devices with integrity proof are expected to function correctly and deterministically, as anticipated.
+- Unauthorized data duplication, caused by
+  - Routing detour to unintended devices or areas
+  - Insecure network devices or unauthorized root access
+  - Middlebox decryption/inspection
+- Capture-now-decrypt-later attacks, caused by
+  - Exploitation of vulnerable cryptographic engineering
+  - Post-Quantum attacks
+- Pattern or behavioral analysis, etc.
 
-Following the same RATS philosophy and building on top of it, Network Attestation for Secure Routing （NASR) aims at a solution specifically designed for the routing use case. NASR aims to provide 1. objective, appraisable evidence of a routing path’s trust or security properties, 2. verifiable integrity proof in the path-level, and 3. verifiable proof that certain packets/flows traveled such paths.
+With these additional security and privacy requirements, there is a need to provide enhanced or added services beyond the pure encryption-based data security; requiring better visibility of the security characteristics of the underlying network elements. Specifically, to satisfy the visibility of the network elements' security state, proof that data is traversed through network elements (devices, links and services) that satisfy security posture claims to avoid exposure of unqualified elements is needed.
 
-Altogether, the NASR goal is to 1. Allow clients to choose desired security attributes of his received network service, 2. Achieve dependable forwarding by routing on top of only devices that satisfies certain trust requirements, and 3. prove to the clients that certain packets or flows traversed a network path that has certain trust or security properties.
+The RATS (Remote ATtestation procedureS) working group has provided a framework and approaches to assess and establish the trustworthiness of a single device, hence offering an initial building block. However, a comprehensive framework that attests to a network -- meaning network-level elements' trustworthiness proofs and verification methods are lacking.
+
+The Network Attestation for Secured foRwarding (NASR) working group is chartered to address the challenges associated with proving state and characteristics of a network path are compliant to a set of claims, so as to achieve predictable and verifiable forwarding behavior. The work will build as much as possible on existing standards and implementations, focusing on combining them in a clear and coherent manner to address secured forwarding use cases such as those identified and described in the NASR use cases and requirements document.
 
 This document introduces the architecture, entities, interactive procedures, and messages sent between the entities, so to achieve the NASR objective.
-
 
 # Use Cases {#usecases}
 
@@ -107,9 +115,9 @@ Request|         | Report
               individual evidence    individual evidence
                   (AR/RE/PoT)           (AR/RE/PoT)
 ~~~
-Figure 1. NASR Architecture-- Oversimplified
+Figure 1. NASR Architecture-- Oversimplified (a data plane/BGP-LS example)
 
-Fig. 1 is an oversimplification to ease understanding of the concept. In a single client - single operator scenario, a client (Relying Party) sends a Path Request containing his security or trustworthiness requirements of a leased line. The Orchestrator, run by the operator, would choose qualifying devices (Attesters) and send out an empty Path Evidence inquiry. The Attesters update the Path Evidence with its own Raw Evidence or Attestation Results one-by-one. The Verifier verifies the filled Path Evidence, produce a Path Attestation Result (PAR), and sends it back to the Relying Party. The Relying Party now have confidence over the trustworthiness of received network. After the end-to-end service is delivered, during service, Proof-of-Transits are also created by each Attester, being sent in-band accumulatively or out-of-band, to detect unexpected routing deviation.
+Fig. 1 is an oversimplification to ease understanding of the concept. In a single client - single operator scenario, a client (Relying Party) sends a Path Request containing his security or trustworthiness requirements of a connectivity service. The Orchestrator, run by the operator, would choose qualifying devices (Attesters) and send out an empty Path Evidence inquiry (using data plane protocol like BGP-LS). The Attesters update the Path Evidence with its own Raw Evidence or Attestation Results one-by-one. The Verifier verifies the filled Path Evidence, produce a Path Attestation Result (PAR), and sends it back to the Relying Party. The Relying Party now have confidence over the trustworthiness of received network. After the end-to-end service is delivered, during service, Proof-of-Transits are also created by each Attester, being sent in-band accumulatively or out-of-band, to detect unexpected forwarding deviation.
 
 Alternatively, the Path Evidence can be collected through management protocols like NETCONF/YANG. The orchestrator aggregates individual evidences of each attester device on the candidate path, then send the Path Evidence to the Path Verifier, who then produces a Path Attestation Result back to the Relying Party. When the attester devices are made by different vendors, multiple verifiers may be needed.
 
@@ -141,9 +149,8 @@ Alternatively, the Path Evidence can be collected through management protocols l
   |           |    |           |    |           |
   +-----------+    +-----------+    +-----------+
 ~~~
-Figure 1.1. NASR Architecture-- Oversimplified
+Figure 1.1. NASR Architecture-- Oversimplified (a management plane/YANG example)
 
-This process is repeated periodically to continuously assure compliance.
 
 ## Multi Client - Multi Operator
 ~~~
